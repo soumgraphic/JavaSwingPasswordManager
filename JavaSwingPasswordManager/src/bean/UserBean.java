@@ -3,15 +3,17 @@ package bean;
 import java.sql.Date;
 
 public class UserBean {
+	
 	String identifiantUser;
 	String nameUser;
 	String emailUser;
 	String passwordUser;
 	String createDateUser;
 	String lastUpdateDateUser;
+	ReturnCallDbFunctionBean callDbFunctionBean;
 	
 	public UserBean(String identifiantUser, String nameUser, String emailUser, String passwordUser, String createDateUser,
-			String lastUpdateDateUser) {
+			String lastUpdateDateUser, ReturnCallDbFunctionBean callDbFunctionBean) {
 		super();
 		this.identifiantUser = identifiantUser;
 		this.nameUser = nameUser;
@@ -19,6 +21,15 @@ public class UserBean {
 		this.passwordUser = passwordUser;
 		this.createDateUser = createDateUser;
 		this.lastUpdateDateUser = lastUpdateDateUser;
+		this.callDbFunctionBean = callDbFunctionBean;
+	}
+	
+	public UserBean(String nameUser, String emailUser, String passwordUser, ReturnCallDbFunctionBean callDbFunctionBean) {
+		super();
+		this.nameUser = nameUser;
+		this.emailUser = emailUser;
+		this.passwordUser = passwordUser;
+		this.callDbFunctionBean = callDbFunctionBean;
 	}
 	
 	public UserBean(String nameUser, String emailUser, String passwordUser) {
@@ -80,10 +91,36 @@ public class UserBean {
 		this.lastUpdateDateUser = lastUpdateDateUser;
 	}
 
+	public ReturnCallDbFunctionBean getCallDbFunctionBean() {
+		return callDbFunctionBean;
+	}
+
+	public void setCallDbFunctionBean(ReturnCallDbFunctionBean callDbFunctionBean) {
+		this.callDbFunctionBean = callDbFunctionBean;
+	}
+
 	@Override
 	public String toString() {
 		return "UserBean [identifiantUser=" + identifiantUser + ", nameUser=" + nameUser + ", emailUser=" + emailUser
 				+ ", createDateUser=" + createDateUser + ", lastUpdateDateUser=" + lastUpdateDateUser + "]";
 	}
+
+	/*
+	@Override
+	public String toString() {
+		return "UserBean [identifiantUser=" + identifiantUser + ", nameUser=" + nameUser + ", emailUser=" + emailUser
+				+ ", passwordUser=" + passwordUser + ", createDateUser=" + createDateUser + ", lastUpdateDateUser="
+				+ lastUpdateDateUser + ", callDbFunctionBean=" + callDbFunctionBean + 
+				"[" + "callDbFunctionBean.codeRetour" + callDbFunctionBean.getCodeRetour() +
+				"callDbFunctionBean.errorRetour" + callDbFunctionBean.isErrorRetour() +
+				"callDbFunctionBean.messageRetour" + callDbFunctionBean.getMessageRetour() +
+				"]";
+	}
+	*/
+	
+
+	
+
+	
 	
 }
