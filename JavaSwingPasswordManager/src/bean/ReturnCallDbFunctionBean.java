@@ -23,4 +23,12 @@ public class ReturnCallDbFunctionBean {
 	public void setMessageRetour(String messageRetour) {
 		this.messageRetour = messageRetour;
 	}
+	
+	@Override
+	public String toString() {
+		return "ReturnCallDbFunctionBean [codeRetour=" + codeRetour + ", errorRetour=" + errorRetour
+				+ ", messageRetour=" + messageRetour + "]";
+	}
+	
+	
 }

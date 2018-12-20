@@ -102,7 +102,8 @@ public class UserBean {
 	@Override
 	public String toString() {
 		return "UserBean [identifiantUser=" + identifiantUser + ", nameUser=" + nameUser + ", emailUser=" + emailUser
-				+ ", createDateUser=" + createDateUser + ", lastUpdateDateUser=" + lastUpdateDateUser + "]";
+				+ ", createDateUser=" + createDateUser + ", lastUpdateDateUser="
+				+ lastUpdateDateUser + ", getCallDbFunctionBean()=" + getCallDbFunctionBean().toString() + "]";
 	}
 
 	/*

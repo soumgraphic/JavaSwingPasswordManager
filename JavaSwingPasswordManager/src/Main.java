@@ -21,8 +21,8 @@ public class Main {
 		ReturnCallDbFunctionBean callDbFunctionBean = new ReturnCallDbFunctionBean();
 		
 	    String originalString = "Bonjour soumaila Abdoulaye DIARRA ";
-	    String encryptedString = AESEncryption.encrypt(originalString, Constants.SECRET_KEY) ;
-	    String decryptedString = AESEncryption.decrypt(encryptedString, Constants.SECRET_KEY) ;
+	    String encryptedString = AESEncryption.encrypt(originalString) ;
+	    String decryptedString = AESEncryption.decrypt(encryptedString) ;
 	    
 	    Utils.getLogger(Level.INFO, "Fin de l'encryption");
         

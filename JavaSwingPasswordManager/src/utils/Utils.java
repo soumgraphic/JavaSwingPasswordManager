@@ -37,4 +37,9 @@ public class Utils {
 		return sqlDate;
 	}
 	
+	public static void errorDbConnection() {
+		getLogger(Level.SEVERE,
+				"Erreur lors de la connexion à la base de donnée, veuillez vérifiez si la base de donée est bien démarré !");
+	}
+	
 }

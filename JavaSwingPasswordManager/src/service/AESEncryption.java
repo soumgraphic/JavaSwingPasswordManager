@@ -9,6 +9,8 @@ import java.util.Base64;
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
 
+import utils.Constants;
+
 public class AESEncryption {
 
 	private static SecretKeySpec secretKey;
@@ -29,8 +31,9 @@ public class AESEncryption {
 		}
 	}
 
-	public static String encrypt(String strToEncrypt, String secret) {
+	public static String encrypt(String strToEncrypt) {
 		try {
+			String secret = Constants.SECRET_KEY;
 			setKey(secret);
 			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
 			cipher.init(Cipher.ENCRYPT_MODE, secretKey);
@@ -41,8 +44,9 @@ public class AESEncryption {
 		return null;
 	}
 
-	public static String decrypt(String strToDecrypt, String secret) {
+	public static String decrypt(String strToDecrypt) {
 		try {
+			String secret = Constants.SECRET_KEY;
 			setKey(secret);
 			Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5PADDING");
 			cipher.init(Cipher.DECRYPT_MODE, secretKey);
@@ -52,4 +56,5 @@ public class AESEncryption {
 		}
 		return null;
 	}
+	
 }
