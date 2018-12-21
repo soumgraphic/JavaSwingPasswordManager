@@ -18,9 +18,9 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Cursor;
 
-public class AuthenticationUI {
+public class AuthenticationUI extends JFrame{
 
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField emailTxtfield;
 	private JPasswordField passwordTxtfield;
 

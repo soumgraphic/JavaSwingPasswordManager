@@ -67,13 +67,41 @@ public class TestAccount {
 		 * Affichage de tous les comptes.
 		 */
 		
-		
+		/*
 		 
 		UserBean userBean = new UserBean();
 		AccountDaoImpl accountDaoImpl = new AccountDaoImpl();
 		List<AccountBean> accounts = new ArrayList<AccountBean>();
 		try {
 			accounts = accountDaoImpl.retrieveAllAccounts();
+			for (AccountBean accountBean : accounts) {
+				if ((accountBean.getCallDbFunctionBean().getCodeRetour() == Constants.COMPLETED_SUCCESSFULLY) && (accountBean.getCallDbFunctionBean().isErrorRetour() == false)) {
+					System.out.println(accountBean.toString());
+					System.out.println("Message de retour " + accountBean.getCallDbFunctionBean().getMessageRetour());
+				}else {
+					System.out.println(accountBean.getCallDbFunctionBean().getMessageRetour());
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		*/
+		
+		/*
+		 * Affichage de tous les comptes.
+		 */
+		
+		
+		 
+		UserBean userBean = new UserBean();
+		AccountDaoImpl accountDaoImpl = new AccountDaoImpl();
+		List<AccountBean> accounts = new ArrayList<AccountBean>();
+		try {
+			//USER soman 9964a398-cec1-431c-b390-b0a73d488840
+			accounts = accountDaoImpl.retrieveAllAccountsByUserId("c858cfb2-e53b-43cf-bc81-66cb85b8fdd0");
 			for (AccountBean accountBean : accounts) {
 				if ((accountBean.getCallDbFunctionBean().getCodeRetour() == Constants.COMPLETED_SUCCESSFULLY) && (accountBean.getCallDbFunctionBean().isErrorRetour() == false)) {
 					System.out.println(accountBean.toString());

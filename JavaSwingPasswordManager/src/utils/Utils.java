@@ -6,6 +6,11 @@ import java.text.SimpleDateFormat;
 import java.util.Locale;
 import java.util.UUID;
 import java.util.logging.Level;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.swing.JOptionPane;
+import javax.swing.JFrame;
 
 public class Utils {
 	
@@ -40,6 +45,38 @@ public class Utils {
 	public static void errorDbConnection() {
 		getLogger(Level.SEVERE,
 				"Erreur lors de la connexion à la base de donnée, veuillez vérifiez si la base de donée est bien démarré !");
+	}
+	
+	public static boolean isNullOrEmpty(String str) {
+        if(str != null && !str.trim().isEmpty())
+            return false;
+        return true;
+    }
+	
+	public static boolean validateEmail(String email) {
+		// Email Regex java
+		final String EMAIL_REGEX = "^[\\w-\\+]+(\\.[\\w]+)*@[\\w-]+(\\.[\\w]+)*(\\.[a-z]{2,})$";
+		Pattern pattern;
+		Matcher matcher;
+		pattern = Pattern.compile(EMAIL_REGEX, Pattern.CASE_INSENSITIVE);
+		matcher = pattern.matcher(email);
+		return matcher.matches();
+	}
+	
+	public static boolean checkStringMinLength(String chaine, int minLength) {
+		if (chaine.length() < minLength) {
+			return false;
+		}else {
+			return true;
+		}
+	}
+	
+	public static void showErrorMessage (JFrame frame, String message) {
+		JOptionPane.showMessageDialog(frame, message + " :)","Password Manager - Erreur",0);
+	}
+	
+	public static void showSuccessMessage (JFrame frame, String message) {
+		JOptionPane.showMessageDialog(frame, message,"Password Manager",0);
 	}
 	
 }

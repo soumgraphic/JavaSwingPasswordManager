@@ -14,16 +14,17 @@ public class TestUser {
 		 * Insertion d'un user
 		 */
 		
-		/*
+		
 		 
 		try {
 		
 			UserDaoImpl daoImpl = new UserDaoImpl();
-			UserBean userBean = new UserBean("Alioune DIARRA", "alioune.d@gmail.com", "12345678");
+			UserBean userBean = new UserBean("Saran soman", "saran.d@gmail.com", "12345678");
 			userBean = daoImpl.insertUser(userBean);
 			if ((userBean.getCallDbFunctionBean().getCodeRetour() == Constants.COMPLETED_SUCCESSFULLY) && (userBean.getCallDbFunctionBean().isErrorRetour() == false)) {
 				System.out.println("Email du user ajouté " + userBean.getEmailUser());
 				System.out.println("Message de retour " + userBean.getCallDbFunctionBean().getMessageRetour());
+				System.out.println(userBean.toString());
 			}else {
 				System.out.println("Message de retour " + userBean.getCallDbFunctionBean().getMessageRetour());
 			}
@@ -33,7 +34,7 @@ public class TestUser {
 			e.printStackTrace();
 		}
 		
-		*/
+		
 		
 		
 		/*
@@ -67,7 +68,7 @@ public class TestUser {
 		 * Authentification d'un user via son email et son mot de passe 
 		 */
 		
-		
+		/*
 		
 		try {
 		
@@ -86,6 +87,6 @@ public class TestUser {
 			e.printStackTrace();
 		}
 		
-		
+		*/
 	}
 }

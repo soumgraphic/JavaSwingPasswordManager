@@ -39,7 +39,8 @@ public class UserDaoImpl {
 			
 			if (testIfUserEmailExistInDb(userBean.getEmailUser()) == false) {
 				ps = con.prepareStatement(INSERT_USER_SQL_QUERY);
-				ps.setString(1, Utils.generateUUID());
+				String uuidGenerated = Utils.generateUUID();
+				ps.setString(1, uuidGenerated);
 				ps.setString(2, userBean.getNameUser());
 				ps.setString(3, userBean.getEmailUser());
 				ps.setString(4, PasswordHash.getSaltedHash(userBean.getPasswordUser()));
@@ -47,6 +48,8 @@ public class UserDaoImpl {
 				int count = ps.executeUpdate();
 				System.out.println("insertUser => " + ps.toString());
 				if (count > 0) {
+					user.setIdentifiantUser(uuidGenerated);
+					user.setNameUser(userBean.getNameUser());
 					user.setEmailUser(userBean.getEmailUser());
 					callDbFunctionBean.setErrorRetour(false);
 					callDbFunctionBean.setCodeRetour(Constants.COMPLETED_SUCCESSFULLY);

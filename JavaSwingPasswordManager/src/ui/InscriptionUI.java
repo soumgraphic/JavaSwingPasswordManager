@@ -6,24 +6,38 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
+import javax.swing.text.Utilities;
+
+import bean.UserBean;
+import dao.UserDaoImpl;
+import utils.Constants;
+import utils.Utils;
+
+import javax.naming.Context;
 import javax.swing.ImageIcon;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Cursor;
 
-public class InscriptionUI {
+public class InscriptionUI extends JFrame implements ActionListener{
 
 	private JFrame frame;
 	private JTextField nameTxtfield;
 	private JTextField emailTxtfield;
 	private JPasswordField passwordTxtfield;
+	private JRadioButton notRobotRdBtn;
 
 	/**
 	 * Launch the application.
@@ -119,7 +133,7 @@ public class InscriptionUI {
 		separator.setBounds(51, 163, 320, 12);
 		panel_1.add(separator);
 		
-		JRadioButton notRobotRdBtn = new JRadioButton("Je ne suis pas un robot");
+		notRobotRdBtn = new JRadioButton("Je ne suis pas un robot");
 		notRobotRdBtn.setBorder(null);
 		notRobotRdBtn.setFont(new Font("Tahoma", Font.BOLD, 12));
 		notRobotRdBtn.setBackground(new Color(60, 179, 113));
@@ -178,6 +192,92 @@ public class InscriptionUI {
 		inscriptionBtn.setFocusPainted(false);
 		inscriptionBtn.setBorder(new LineBorder(new Color(255, 255, 255)));
 		inscriptionBtn.setBounds(51, 369, 320, 40);
+		inscriptionBtn.setActionCommand("inscriptionBtn");
+		inscriptionBtn.addActionListener(this);
 		panel_1.add(inscriptionBtn);
+		
+		JButton goToConnexionBtn = new JButton("<html>\nVous avez déjà un compte ? <u>Connexion</u>\n</html>");
+		goToConnexionBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		goToConnexionBtn.setForeground(Color.WHITE);
+		goToConnexionBtn.setFont(new Font("Tahoma", Font.BOLD, 12));
+		goToConnexionBtn.setBorder(null);
+		goToConnexionBtn.setBounds(51, 421, 320, 21);
+		goToConnexionBtn.setActionCommand("goToConnexionBtn");
+		goToConnexionBtn.addActionListener(this);
+		panel_1.add(goToConnexionBtn);
 	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if ("inscriptionBtn".equals(e.getActionCommand())) {
+			inscription();
+		}else if("goToConnexionBtn".equals(e.getActionCommand())) {
+			backToConnexionWdw();
+		}
+	}
+	
+	private void inscription() {
+		String nameUser = nameTxtfield.getText().toString();
+		String emailUser = emailTxtfield.getText().toString();
+		String pwdUser = passwordTxtfield.getText().toString();
+		
+		if (verificationNulliteEtTailleDesChamps(nameUser, emailUser, pwdUser)) {
+			try {
+				
+				UserDaoImpl daoImpl = new UserDaoImpl();
+				UserBean userBean = new UserBean(nameUser, emailUser, pwdUser);
+				userBean = daoImpl.insertUser(userBean);
+				if ((userBean.getCallDbFunctionBean().getCodeRetour() == Constants.COMPLETED_SUCCESSFULLY) && (userBean.getCallDbFunctionBean().isErrorRetour() == false)) {
+					Utils.showSuccessMessage(frame, "Votre compte " + userBean.getEmailUser() + " a été créer avec succès ! ");
+					System.out.println(userBean.toString());
+					
+					nameTxtfield.setText("");
+					emailTxtfield.setText("");
+					passwordTxtfield.setText("");
+				}else {
+					Utils.showErrorMessage(frame, "Une erreur est survenue lors de la création de votre compte !");
+				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+	
+	private boolean verificationNulliteEtTailleDesChamps(String nameUser, String emailUser, String pwdUser) {
+		if ((!Utils.isNullOrEmpty(nameUser) && (!Utils.isNullOrEmpty(emailUser) && (!Utils.isNullOrEmpty(pwdUser) )))) {
+			if (Utils.checkStringMinLength(nameUser, 2)) {
+				if (Utils.validateEmail(emailUser)) {
+					if (Utils.checkStringMinLength(pwdUser, 6)) {
+						return true;
+					}else {
+						Utils.showErrorMessage(frame, "Le mot de passe doit être au minimum six caractères");
+						return false;
+					}
+				}else {
+					Utils.showErrorMessage(frame, "Veuillez saisir un adresse email valide !");
+					return false;
+				}
+				
+			}else {
+				Utils.showErrorMessage(frame, "Le nom doit être au minimum deux caractères");
+				return false;
+			}
+			
+		}else {
+			Utils.showErrorMessage(frame, "Veuillez remplir tous les champs !");
+			return false;
+		}
+	}
+	
+	private void backToConnexionWdw() {
+		AuthenticationUI windowAuthUI = new AuthenticationUI();
+		frame.dispose();
+		windowAuthUI.frame.setVisible(true);
+	}
+	
+	
 }
