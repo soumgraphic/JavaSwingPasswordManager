@@ -175,6 +175,8 @@ public class AuthenticationUI extends JFrame implements ActionListener{
 		goToInscription.addActionListener(this);
 		panel_1.add(goToInscription);
 		
+		//Modification à faire à l'UI.
+		
 		
 	}
 
