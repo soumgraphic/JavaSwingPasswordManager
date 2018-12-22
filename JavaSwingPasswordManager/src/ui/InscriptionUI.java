@@ -33,7 +33,7 @@ import java.awt.Cursor;
 
 public class InscriptionUI extends JFrame implements ActionListener{
 
-	private JFrame frame;
+	public JFrame frame;
 	private JTextField nameTxtfield;
 	private JTextField emailTxtfield;
 	private JPasswordField passwordTxtfield;
@@ -229,14 +229,17 @@ public class InscriptionUI extends JFrame implements ActionListener{
 				UserBean userBean = new UserBean(nameUser, emailUser, pwdUser);
 				userBean = daoImpl.insertUser(userBean);
 				if ((userBean.getCallDbFunctionBean().getCodeRetour() == Constants.COMPLETED_SUCCESSFULLY) && (userBean.getCallDbFunctionBean().isErrorRetour() == false)) {
-					Utils.showSuccessMessage(frame, "Votre compte " + userBean.getEmailUser() + " a été créer avec succès ! ");
-					System.out.println(userBean.toString());
-					
 					nameTxtfield.setText("");
 					emailTxtfield.setText("");
 					passwordTxtfield.setText("");
-				}else {
-					Utils.showErrorMessage(frame, "Une erreur est survenue lors de la création de votre compte !");
+					
+					AdminUI adminUI = new AdminUI(userBean);
+					frame.dispose();
+					adminUI.frame.setVisible(true);
+				}else if((userBean.getCallDbFunctionBean().getCodeRetour() == Constants.EMAIL_EXIST) && (userBean.getCallDbFunctionBean().isErrorRetour() == true)) {
+					Utils.showErrorMessage(frame, userBean.getCallDbFunctionBean().getMessageRetour());
+				}else if((userBean.getCallDbFunctionBean().getCodeRetour() == Constants.UNKNOW_ERROR) && (userBean.getCallDbFunctionBean().isErrorRetour() == true)) {
+					Utils.showErrorMessage(frame, userBean.getCallDbFunctionBean().getMessageRetour());
 				}
 				
 			} catch (Exception e) {

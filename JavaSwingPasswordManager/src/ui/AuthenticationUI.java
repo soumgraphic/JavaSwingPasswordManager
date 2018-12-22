@@ -7,22 +7,36 @@ import javax.swing.JPanel;
 import java.awt.Color;
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
 import javax.swing.JButton;
 import javax.swing.border.LineBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+import javax.swing.text.Document;
+
+import bean.UserBean;
+import dao.UserDaoImpl;
+import utils.Constants;
+import utils.Utils;
+
 import javax.swing.ImageIcon;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Cursor;
 
-public class AuthenticationUI extends JFrame{
+public class AuthenticationUI extends JFrame implements ActionListener{
 
 	public JFrame frame;
 	private JTextField emailTxtfield;
 	private JPasswordField passwordTxtfield;
+	private JButton connexionBtn;
+	private JButton goToInscription;
 
 	/**
 	 * Launch the application.
@@ -139,22 +153,74 @@ public class AuthenticationUI extends JFrame{
 		passwordTxtfield.setBounds(51, 262, 320, 16);
 		panel_1.add(passwordTxtfield);
 		
-		JButton inscriptionBtn = new JButton("Se connecter");
-		inscriptionBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		inscriptionBtn.setFont(new Font("Tahoma", Font.BOLD, 14));
-		inscriptionBtn.setForeground(new Color(255, 255, 255));
-		inscriptionBtn.setContentAreaFilled(false);
-		inscriptionBtn.setFocusPainted(false);
-		inscriptionBtn.setBorder(new LineBorder(new Color(255, 255, 255)));
-		inscriptionBtn.setBounds(51, 320, 320, 40);
-		panel_1.add(inscriptionBtn);
+		connexionBtn = new JButton("Se connecter");
+		connexionBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		connexionBtn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		connexionBtn.setForeground(new Color(255, 255, 255));
+		connexionBtn.setContentAreaFilled(false);
+		connexionBtn.setFocusPainted(false);
+		connexionBtn.setBorder(new LineBorder(new Color(255, 255, 255)));
+		connexionBtn.setBounds(51, 320, 320, 40);
+		connexionBtn.setActionCommand("connexionBtn");
+		connexionBtn.addActionListener(this);
+		panel_1.add(connexionBtn);
 		
-		JButton goToInscription = new JButton("<html>\nPas encore de compte ? <u>Inscription</u>\n</html>");
+		goToInscription = new JButton("<html>\nPas encore de compte ? <u>Inscription</u>\n</html>");
 		goToInscription.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		goToInscription.setFont(new Font("Tahoma", Font.BOLD, 12));
 		goToInscription.setBorder(null);
 		goToInscription.setForeground(new Color(255, 255, 255));
 		goToInscription.setBounds(51, 381, 320, 21);
+		goToInscription.setActionCommand("goToInscription");
+		goToInscription.addActionListener(this);
 		panel_1.add(goToInscription);
+		
+		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if ("connexionBtn".equals(e.getActionCommand())) {
+			connexion();
+		}else if("goToInscription".equals(e.getActionCommand())) {
+			backToInscriptionWdw();
+		}
+	}
+	
+	private void connexion() {
+		String emailUser = emailTxtfield.getText().toString();
+		String passwordUser = passwordTxtfield.getText().toString();
+		if ((!Utils.isNullOrEmpty(emailUser)) && (!Utils.isNullOrEmpty(passwordUser))) {
+			try {
+				
+				UserDaoImpl daoImpl = new UserDaoImpl();
+				UserBean userBean = new UserBean();
+				userBean = daoImpl.authenticationUser(emailUser, passwordUser);
+				if ((userBean.getCallDbFunctionBean().getCodeRetour() == Constants.COMPLETED_SUCCESSFULLY) && (userBean.getCallDbFunctionBean().isErrorRetour() == false)) {
+					AdminUI adminUI = new AdminUI(userBean);
+					frame.dispose();
+					adminUI.frame.setVisible(true);
+				}else if((userBean.getCallDbFunctionBean().getCodeRetour() == Constants.NOT_FOUND) && (userBean.getCallDbFunctionBean().isErrorRetour() == true)){
+					Utils.showErrorMessage(frame, userBean.getCallDbFunctionBean().getMessageRetour());
+				}else if((userBean.getCallDbFunctionBean().getCodeRetour() == Constants.PASSWORD_ERROR) && (userBean.getCallDbFunctionBean().isErrorRetour() == true)) {
+					Utils.showErrorMessage(frame, userBean.getCallDbFunctionBean().getMessageRetour());
+				}else {
+					Utils.showErrorMessage(frame, "Une erreur est survenue lors de l'authentification, veuillez réessayer ultérieurement !");
+				}
+				
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else {
+			Utils.showErrorMessage(frame, "Veuillez remplir les champs email et mot de passe !");
+		}
+	}
+	
+	private void backToInscriptionWdw() {
+		InscriptionUI windowInscUI = new InscriptionUI();
+		frame.dispose();
+		windowInscUI.frame.setVisible(true);
 	}
 }

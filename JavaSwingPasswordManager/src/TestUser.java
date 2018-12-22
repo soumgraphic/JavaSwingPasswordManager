@@ -25,7 +25,7 @@ public class TestUser {
 				System.out.println("Email du user ajouté " + userBean.getEmailUser());
 				System.out.println("Message de retour " + userBean.getCallDbFunctionBean().getMessageRetour());
 				System.out.println(userBean.toString());
-			}else {
+			} else {
 				System.out.println("Message de retour " + userBean.getCallDbFunctionBean().getMessageRetour());
 			}
 			
