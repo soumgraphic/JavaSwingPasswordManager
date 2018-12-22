@@ -255,7 +255,12 @@ public class InscriptionUI extends JFrame implements ActionListener{
 			if (Utils.checkStringMinLength(nameUser, 2)) {
 				if (Utils.validateEmail(emailUser)) {
 					if (Utils.checkStringMinLength(pwdUser, 6)) {
-						return true;
+						if (notRobotRdBtn.isSelected()) {
+							return true;
+						}else {
+							Utils.showErrorMessage(frame, "Etes vous un robot ? selectionnez ci dessous si vous ne l'êtes pas !");
+							return false;
+						}
 					}else {
 						Utils.showErrorMessage(frame, "Le mot de passe doit être au minimum six caractères");
 						return false;
