@@ -166,6 +166,9 @@ public class AuthenticationUI extends JFrame implements ActionListener{
 		panel_1.add(connexionBtn);
 		
 		goToInscription = new JButton("<html>\nPas encore de compte ? <u>Inscription</u>\n</html>");
+		goToInscription.setBorderPainted(false);
+		goToInscription.setContentAreaFilled(false);
+		goToInscription.setOpaque(false);
 		goToInscription.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		goToInscription.setFont(new Font("Tahoma", Font.BOLD, 12));
 		goToInscription.setBorder(null);
@@ -174,8 +177,6 @@ public class AuthenticationUI extends JFrame implements ActionListener{
 		goToInscription.setActionCommand("goToInscription");
 		goToInscription.addActionListener(this);
 		panel_1.add(goToInscription);
-		
-		//Modification à faire à l'UI.
 		
 		
 	}

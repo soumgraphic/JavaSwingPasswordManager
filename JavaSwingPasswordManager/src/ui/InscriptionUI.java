@@ -197,6 +197,9 @@ public class InscriptionUI extends JFrame implements ActionListener{
 		panel_1.add(inscriptionBtn);
 		
 		JButton goToConnexionBtn = new JButton("<html>\nVous avez déjà un compte ? <u>Connexion</u>\n</html>");
+		goToConnexionBtn.setOpaque(false);
+		goToConnexionBtn.setContentAreaFilled(false);
+		goToConnexionBtn.setBorderPainted(false);
 		goToConnexionBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		goToConnexionBtn.setForeground(Color.WHITE);
 		goToConnexionBtn.setFont(new Font("Tahoma", Font.BOLD, 12));
