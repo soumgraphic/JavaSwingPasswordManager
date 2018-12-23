@@ -20,6 +20,7 @@ import java.awt.Cursor;
 import javax.swing.JScrollBar;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
+import javax.swing.JList;
 
 public class AdminUI {
 
@@ -336,6 +337,13 @@ public class AdminUI {
 		iconDeleteItemLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/delete_icon.png")));
 		iconDeleteItemLbl.setBounds(704, 135, 30, 30);
 		panel_1.add(iconDeleteItemLbl);
+		
+		JLabel identifiantItemHiddenTxtFld = new JLabel("");
+		identifiantItemHiddenTxtFld.setVisible(false);
+		identifiantItemHiddenTxtFld.setForeground(new Color(112, 128, 144));
+		identifiantItemHiddenTxtFld.setFont(new Font("Tahoma", Font.BOLD, 16));
+		identifiantItemHiddenTxtFld.setBounds(408, 154, 23, 19);
+		panel_1.add(identifiantItemHiddenTxtFld);
 		
 		JLabel label_6 = new JLabel("");
 		label_6.setOpaque(true);
