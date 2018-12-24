@@ -1,6 +1,8 @@
 package utils;
 
 import java.util.Date;
+import java.awt.Desktop;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -87,6 +89,14 @@ public class Utils {
 		} else {
 			button.setEnabled(true);
 		}
+	}
+	
+	public static void openWebpage(String urlString) {
+	    try {
+	        Desktop.getDesktop().browse(new URL(urlString).toURI());
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 
 }

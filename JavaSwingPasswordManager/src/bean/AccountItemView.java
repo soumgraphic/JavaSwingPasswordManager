@@ -79,4 +79,12 @@ public class AccountItemView {
 		this.etatUrlAccountItem = etatUrlAccountItem;
 	}
 
+	@Override
+	public String toString() {
+		return "AccountItemView [identifiantAccountItem=" + identifiantAccountItem + ", usernameAccountItem="
+				+ usernameAccountItem + ", nomCompletAccountItem=" + nomCompletAccountItem + ", passwordAccountItem="
+				+ passwordAccountItem + ", etatPasswordAccountItem=" + etatPasswordAccountItem + ", urlAccountItem="
+				+ urlAccountItem + ", etatUrlAccountItem=" + etatUrlAccountItem + "]";
+	}
+
 }
