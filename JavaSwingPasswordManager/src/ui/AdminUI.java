@@ -10,9 +10,13 @@ import bean.UserBean;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
+import java.awt.Panel;
+import java.awt.ScrollPane;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -23,6 +27,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import java.awt.Cursor;
+import java.awt.Dimension;
+
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JPasswordField;
@@ -36,22 +42,18 @@ public class AdminUI {
 	JLabel userNameLbl;
 	JLabel userEmailLbl;
 	private final JPanel panel = new JPanel();
-	private JTextField passwordItemTxtFld;
-	private JTextField usernameItemTxtFld;
-	private JTextField urlItemTxtFld;
-	private JTextField nomCompletItemTxtFld;
-	private JTextField etatPasswordItemTxtFld;
-	private JTextField etatUrlItemTxtFld;
 	private JTextField nomCompletEditTxtFld;
 	private JTextField usernameEditTxtFld;
 	private JPasswordField passwordEditTxtFld;
 	private JTextField urlEditTxtFld;
-	private JTextField username_panelAI;
-	private JTextField password_panelAI;
-	private JTextField url_panelAI;
-	private JTextField etatUrl_panelAI;
-	private JTextField etatPassword_panelAI;
-	private JTextField nomComplet_panelAI;
+	private JTextField textField;
+	private JTextField textField_1;
+	private JTextField textField_2;
+	private JTextField textField_3;
+	private JTextField textField_4;
+	private JTextField textField_5;
+	private JTextField textField_6;
+	private JTextField textField_7;
 
 	/**
 	 * Launch the application.
@@ -200,33 +202,33 @@ public class AdminUI {
 		chiffreNbreCompteEnregistrerLbl.setFont(new Font("Tahoma", Font.BOLD, 18));
 		chiffreNbreCompteEnregistrerLbl.setBounds(457, 111, 22, 22);
 		panel.add(chiffreNbreCompteEnregistrerLbl);
-		
+
 		JSeparator separator_8 = new JSeparator();
 		separator_8.setOrientation(SwingConstants.VERTICAL);
 		separator_8.setBounds(572, 72, 10, 78);
 		panel.add(separator_8);
-		
-		JLabel lblWeAreHappy = new JLabel("We are happy !");
+
+		JLabel lblWeAreHappy = new JLabel("We are happy you like it !");
 		lblWeAreHappy.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWeAreHappy.setForeground(new Color(112, 128, 144));
 		lblWeAreHappy.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblWeAreHappy.setBounds(595, 89, 183, 17);
 		panel.add(lblWeAreHappy);
-		
+
 		JLabel githubIconLbl = new JLabel("");
 		githubIconLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/github_logo.png")));
 		githubIconLbl.setForeground(new Color(112, 128, 144));
 		githubIconLbl.setFont(new Font("Tahoma", Font.BOLD, 16));
 		githubIconLbl.setBounds(640, 115, 23, 23);
 		panel.add(githubIconLbl);
-		
+
 		JLabel fbIconLbl = new JLabel("");
 		fbIconLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/facebook.png")));
 		fbIconLbl.setForeground(new Color(112, 128, 144));
 		fbIconLbl.setFont(new Font("Tahoma", Font.BOLD, 16));
 		fbIconLbl.setBounds(675, 115, 24, 24);
 		panel.add(fbIconLbl);
-		
+
 		JLabel twitterIconLbl = new JLabel("");
 		twitterIconLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/twitter.png")));
 		twitterIconLbl.setForeground(new Color(112, 128, 144));
@@ -243,7 +245,7 @@ public class AdminUI {
 		JPanel panel_1 = new JPanel();
 		panel_1.setLayout(null);
 		panel_1.setBackground(new Color(255, 255, 255));
-		panel_1.setBounds(0, 179, 792, 432);
+		panel_1.setBounds(0, 179, 792, 125);
 		frame.getContentPane().add(panel_1);
 
 		JSeparator separator_3 = new JSeparator();
@@ -284,106 +286,11 @@ public class AdminUI {
 		separator_7.setBounds(0, 101, 792, 12);
 		panel_1.add(separator_7);
 
-		JScrollBar scrollBar = new JScrollBar();
-		scrollBar.setBackground(new Color(255, 255, 255));
-		scrollBar.setBounds(764, 125, 16, 55);
-		panel_1.add(scrollBar);
-
 		JLabel lblAction = new JLabel("Action");
 		lblAction.setForeground(new Color(112, 128, 144));
 		lblAction.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblAction.setBounds(655, 72, 45, 17);
 		panel_1.add(lblAction);
-
-		JLabel iconViewOrHidePasswordItemLbl = new JLabel("");
-		iconViewOrHidePasswordItemLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		iconViewOrHidePasswordItemLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/eye.png")));
-		iconViewOrHidePasswordItemLbl.setForeground(new Color(112, 128, 144));
-		iconViewOrHidePasswordItemLbl.setFont(new Font("Tahoma", Font.BOLD, 16));
-		iconViewOrHidePasswordItemLbl.setBounds(408, 125, 23, 23);
-		panel_1.add(iconViewOrHidePasswordItemLbl);
-
-		passwordItemTxtFld = new JTextField();
-		passwordItemTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15));
-		passwordItemTxtFld.setForeground(new Color(112, 128, 144));
-		passwordItemTxtFld.setBorder(null);
-		passwordItemTxtFld.setBackground(new Color(255, 255, 255));
-		passwordItemTxtFld.setEditable(false);
-		passwordItemTxtFld.setText("**********");
-		passwordItemTxtFld.setBounds(246, 125, 150, 22);
-		panel_1.add(passwordItemTxtFld);
-		passwordItemTxtFld.setColumns(10);
-
-		usernameItemTxtFld = new JTextField();
-		usernameItemTxtFld.setText("soumgraphic@gmail.com");
-		usernameItemTxtFld.setForeground(new Color(112, 128, 144));
-		usernameItemTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15));
-		usernameItemTxtFld.setEditable(false);
-		usernameItemTxtFld.setColumns(10);
-		usernameItemTxtFld.setBorder(null);
-		usernameItemTxtFld.setBackground(Color.WHITE);
-		usernameItemTxtFld.setBounds(12, 125, 211, 22);
-		panel_1.add(usernameItemTxtFld);
-
-		urlItemTxtFld = new JTextField();
-		urlItemTxtFld.setText("www.youtube.com");
-		urlItemTxtFld.setForeground(new Color(112, 128, 144));
-		urlItemTxtFld.setFont(new Font("Tahoma", Font.BOLD, 15));
-		urlItemTxtFld.setEditable(false);
-		urlItemTxtFld.setColumns(10);
-		urlItemTxtFld.setBorder(null);
-		urlItemTxtFld.setBackground(Color.WHITE);
-		urlItemTxtFld.setBounds(470, 125, 160, 22);
-		panel_1.add(urlItemTxtFld);
-
-		nomCompletItemTxtFld = new JTextField();
-		nomCompletItemTxtFld.setText("Soumaila Abdoulaye DIARRA");
-		nomCompletItemTxtFld.setForeground(new Color(112, 128, 144));
-		nomCompletItemTxtFld.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		nomCompletItemTxtFld.setEditable(false);
-		nomCompletItemTxtFld.setColumns(10);
-		nomCompletItemTxtFld.setBorder(null);
-		nomCompletItemTxtFld.setBackground(Color.WHITE);
-		nomCompletItemTxtFld.setBounds(12, 151, 211, 22);
-		panel_1.add(nomCompletItemTxtFld);
-
-		etatPasswordItemTxtFld = new JTextField();
-		etatPasswordItemTxtFld.setText("Faible");
-		etatPasswordItemTxtFld.setForeground(new Color(112, 128, 144));
-		etatPasswordItemTxtFld.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		etatPasswordItemTxtFld.setEditable(false);
-		etatPasswordItemTxtFld.setColumns(10);
-		etatPasswordItemTxtFld.setBorder(null);
-		etatPasswordItemTxtFld.setBackground(Color.WHITE);
-		etatPasswordItemTxtFld.setBounds(246, 151, 150, 22);
-		panel_1.add(etatPasswordItemTxtFld);
-
-		etatUrlItemTxtFld = new JTextField();
-		etatUrlItemTxtFld.setText("Site fiable");
-		etatUrlItemTxtFld.setForeground(new Color(112, 128, 144));
-		etatUrlItemTxtFld.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		etatUrlItemTxtFld.setEditable(false);
-		etatUrlItemTxtFld.setColumns(10);
-		etatUrlItemTxtFld.setBorder(null);
-		etatUrlItemTxtFld.setBackground(Color.WHITE);
-		etatUrlItemTxtFld.setBounds(470, 151, 150, 22);
-		panel_1.add(etatUrlItemTxtFld);
-
-		JSeparator separatorItem = new JSeparator();
-		separatorItem.setBounds(0, 177, 752, 12);
-		panel_1.add(separatorItem);
-
-		JLabel iconeEditItemLbl = new JLabel("");
-		iconeEditItemLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		iconeEditItemLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/edit_icon.png")));
-		iconeEditItemLbl.setBounds(655, 135, 30, 30);
-		panel_1.add(iconeEditItemLbl);
-
-		JLabel iconDeleteItemLbl = new JLabel("");
-		iconDeleteItemLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		iconDeleteItemLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/delete_icon.png")));
-		iconDeleteItemLbl.setBounds(704, 135, 30, 30);
-		panel_1.add(iconDeleteItemLbl);
 
 		JLabel identifiantItemHiddenTxtFld = new JLabel("");
 		identifiantItemHiddenTxtFld.setVisible(false);
@@ -391,104 +298,6 @@ public class AdminUI {
 		identifiantItemHiddenTxtFld.setFont(new Font("Tahoma", Font.BOLD, 16));
 		identifiantItemHiddenTxtFld.setBounds(408, 154, 23, 19);
 		panel_1.add(identifiantItemHiddenTxtFld);
-		
-		//GridBagLayout gridBagLayout = new GridBagLayout();
-		JPanel panel_AccountItem = new JPanel();
-		panel_AccountItem.setBackground(Color.WHITE);
-		panel_AccountItem.setBounds(0, 189, 792, 70);
-		panel_1.add(panel_AccountItem);
-		panel_AccountItem.setLayout(null);
-		
-		username_panelAI = new JTextField();
-		username_panelAI.setText("soumgraphic@gmail.com");
-		username_panelAI.setForeground(new Color(112, 128, 144));
-		username_panelAI.setFont(new Font("Tahoma", Font.BOLD, 15));
-		username_panelAI.setEditable(false);
-		username_panelAI.setColumns(10);
-		username_panelAI.setBorder(null);
-		username_panelAI.setBackground(Color.WHITE);
-		username_panelAI.setBounds(12, 6, 211, 22);
-		panel_AccountItem.add(username_panelAI);
-		
-		password_panelAI = new JTextField();
-		password_panelAI.setText("**********");
-		password_panelAI.setForeground(new Color(112, 128, 144));
-		password_panelAI.setFont(new Font("Tahoma", Font.BOLD, 15));
-		password_panelAI.setEditable(false);
-		password_panelAI.setColumns(10);
-		password_panelAI.setBorder(null);
-		password_panelAI.setBackground(Color.WHITE);
-		password_panelAI.setBounds(246, 6, 150, 22);
-		panel_AccountItem.add(password_panelAI);
-		
-		JLabel iconView_panelAI = new JLabel("");
-		iconView_panelAI.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/eye.png")));
-		iconView_panelAI.setForeground(new Color(112, 128, 144));
-		iconView_panelAI.setFont(new Font("Tahoma", Font.BOLD, 16));
-		iconView_panelAI.setBounds(408, 6, 23, 23);
-		panel_AccountItem.add(iconView_panelAI);
-		
-		url_panelAI = new JTextField();
-		url_panelAI.setText("www.youtube.com");
-		url_panelAI.setForeground(new Color(112, 128, 144));
-		url_panelAI.setFont(new Font("Tahoma", Font.BOLD, 15));
-		url_panelAI.setEditable(false);
-		url_panelAI.setColumns(10);
-		url_panelAI.setBorder(null);
-		url_panelAI.setBackground(Color.WHITE);
-		url_panelAI.setBounds(470, 6, 160, 22);
-		panel_AccountItem.add(url_panelAI);
-		
-		JLabel iconEdit_panelAI = new JLabel("");
-		iconEdit_panelAI.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/edit_icon.png")));
-		iconEdit_panelAI.setBounds(655, 16, 30, 30);
-		panel_AccountItem.add(iconEdit_panelAI);
-		
-		JLabel iconDelete_panelAI = new JLabel("");
-		iconDelete_panelAI.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/delete_icon.png")));
-		iconDelete_panelAI.setBounds(704, 16, 30, 30);
-		panel_AccountItem.add(iconDelete_panelAI);
-		
-		etatUrl_panelAI = new JTextField();
-		etatUrl_panelAI.setText("Site fiable");
-		etatUrl_panelAI.setForeground(new Color(112, 128, 144));
-		etatUrl_panelAI.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		etatUrl_panelAI.setEditable(false);
-		etatUrl_panelAI.setColumns(10);
-		etatUrl_panelAI.setBorder(null);
-		etatUrl_panelAI.setBackground(Color.WHITE);
-		etatUrl_panelAI.setBounds(470, 32, 150, 22);
-		panel_AccountItem.add(etatUrl_panelAI);
-		
-		etatPassword_panelAI = new JTextField();
-		etatPassword_panelAI.setText("Faible");
-		etatPassword_panelAI.setForeground(new Color(112, 128, 144));
-		etatPassword_panelAI.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		etatPassword_panelAI.setEditable(false);
-		etatPassword_panelAI.setColumns(10);
-		etatPassword_panelAI.setBorder(null);
-		etatPassword_panelAI.setBackground(Color.WHITE);
-		etatPassword_panelAI.setBounds(246, 32, 150, 22);
-		panel_AccountItem.add(etatPassword_panelAI);
-		
-		nomComplet_panelAI = new JTextField();
-		nomComplet_panelAI.setText("Soumaila Abdoulaye DIARRA");
-		nomComplet_panelAI.setForeground(new Color(112, 128, 144));
-		nomComplet_panelAI.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		nomComplet_panelAI.setEditable(false);
-		nomComplet_panelAI.setColumns(10);
-		nomComplet_panelAI.setBorder(null);
-		nomComplet_panelAI.setBackground(Color.WHITE);
-		nomComplet_panelAI.setBounds(12, 32, 211, 22);
-		panel_AccountItem.add(nomComplet_panelAI);
-		
-		JSeparator separator_panelAI = new JSeparator();
-		separator_panelAI.setBounds(0, 58, 752, 12);
-		panel_AccountItem.add(separator_panelAI);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(0, 266, 786, 166);
-		panel_1.add(scrollPane);
 
 		JLabel label_6 = new JLabel("");
 		label_6.setOpaque(true);
@@ -621,9 +430,190 @@ public class AdminUI {
 		ajouterEditBtn.setActionCommand("inscriptionBtn");
 		ajouterEditBtn.setBounds(12, 356, 350, 40);
 		panel_2.add(ajouterEditBtn);
-		
-		ajouterEditBtn.setRolloverEnabled(true);
-		
 
+		JPanel panelGeneralViewAllItems = new JPanel();
+		panelGeneralViewAllItems.setBackground(Color.WHITE);
+		panelGeneralViewAllItems.setBounds(0, 302, 792, 313);
+
+		JPanel panelViewAllItems = createItemPanel();
+		// JPanel panelViewAllItems = new JPanel();
+
+		JScrollPane spViewallItems = new JScrollPane();
+		spViewallItems.setBorder(null);
+		spViewallItems.setBackground(Color.WHITE);
+		spViewallItems.setViewportView(panelViewAllItems);
+
+		panelGeneralViewAllItems.setLayout(new BorderLayout());
+		panelGeneralViewAllItems.add(spViewallItems, BorderLayout.CENTER);
+
+		frame.getContentPane().add(panelGeneralViewAllItems);
+
+	}
+
+	JPanel createItemPanelTest() {
+
+		JPanel panelViewAllItems = new JPanel();
+		panelViewAllItems.setBackground(Color.WHITE);
+		panelViewAllItems.setLayout(null);
+
+		int j = 35;
+		int k = 32;
+		int z = 32;
+		int length = 2;
+		for (int i = 0; i < length; i++) {
+
+			JLabel firstNameLbl = new JLabel("First name " + i);
+			firstNameLbl.setBounds(131, j, 101, 16);
+
+			JTextField firstNameTf = new JTextField();
+			firstNameTf.setBounds(291, k, 219, 22);
+
+			panelViewAllItems.add(firstNameLbl);
+			panelViewAllItems.add(firstNameTf);
+
+			j = j + z;
+			k = k + z;
+		}
+
+		panelViewAllItems.setPreferredSize(new Dimension(500, 1000));
+
+		return panelViewAllItems;
+	}
+
+	JPanel createItemPanel() {
+
+		JPanel panel_3 = new JPanel();
+		panel_3.setLayout(null);
+		panel_3.setBackground(Color.WHITE);
+		panel_3.setBounds(0, 191, 792, 70);
+
+		int debutCpUsername = 6;
+		int debutCpPassword = 6;
+		int debutCpIconViewPassword = 6;
+		int debutCpUrl = 6;
+		int debutCpIconEditUpdate = 16;
+		int debutCpIconeDelete = 16;
+		int debutCpEtatUrl = 32;
+		int debutCpEtatPassword = 32;
+		int debutCpNomComplet = 32;
+		int debutCpSeparator = 58;
+		int incrementNouvelleLigne = 67;
+
+		for (int i = 0; i < 10; i++) {
+
+			JTextField usernameItemTf;
+			JTextField passwordItemTf;
+			JTextField urlItemTf;
+			JTextField etatUrlItemTf;
+			JTextField etatPasswordItemTf;
+			JTextField nomCompletItemTf;
+
+			usernameItemTf = new JTextField();
+			usernameItemTf.setText("soumgraphic@gmail.com");
+			usernameItemTf.setForeground(new Color(112, 128, 144));
+			usernameItemTf.setFont(new Font("Tahoma", Font.BOLD, 15));
+			usernameItemTf.setEditable(false);
+			usernameItemTf.setColumns(10);
+			usernameItemTf.setBorder(null);
+			usernameItemTf.setBackground(Color.WHITE);
+			usernameItemTf.setBounds(12, debutCpUsername, 211, 22);
+			panel_3.add(usernameItemTf);
+
+			passwordItemTf = new JTextField();
+			passwordItemTf.setText("**********");
+			passwordItemTf.setForeground(new Color(112, 128, 144));
+			passwordItemTf.setFont(new Font("Tahoma", Font.BOLD, 15));
+			passwordItemTf.setEditable(false);
+			passwordItemTf.setColumns(10);
+			passwordItemTf.setBorder(null);
+			passwordItemTf.setBackground(Color.WHITE);
+			passwordItemTf.setBounds(246, debutCpPassword, 150, 22);
+			panel_3.add(passwordItemTf);
+
+			JLabel iconViewPasswordItem = new JLabel("");
+			iconViewPasswordItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			iconViewPasswordItem.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/eye.png")));
+			iconViewPasswordItem.setForeground(new Color(112, 128, 144));
+			iconViewPasswordItem.setFont(new Font("Tahoma", Font.BOLD, 16));
+			iconViewPasswordItem.setBounds(408, debutCpIconViewPassword, 23, 23);
+			panel_3.add(iconViewPasswordItem);
+
+			urlItemTf = new JTextField();
+			urlItemTf.setText("www.youtube.com");
+			urlItemTf.setForeground(new Color(112, 128, 144));
+			urlItemTf.setFont(new Font("Tahoma", Font.BOLD, 15));
+			urlItemTf.setEditable(false);
+			urlItemTf.setColumns(10);
+			urlItemTf.setBorder(null);
+			urlItemTf.setBackground(Color.WHITE);
+			urlItemTf.setBounds(470, debutCpUrl, 160, 22);
+			panel_3.add(urlItemTf);
+
+			JLabel iconEditupdateItem = new JLabel("");
+			iconEditupdateItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			iconEditupdateItem.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/edit_icon.png")));
+			iconEditupdateItem.setBounds(655, debutCpIconEditUpdate, 30, 30);
+			panel_3.add(iconEditupdateItem);
+
+			JLabel iconeDeleteItem = new JLabel("");
+			iconeDeleteItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+			iconeDeleteItem.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/delete_icon.png")));
+			iconeDeleteItem.setBounds(704, debutCpIconeDelete, 30, 30);
+			panel_3.add(iconeDeleteItem);
+
+			etatUrlItemTf = new JTextField();
+			etatUrlItemTf.setText("Site fiable");
+			etatUrlItemTf.setForeground(new Color(112, 128, 144));
+			etatUrlItemTf.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			etatUrlItemTf.setEditable(false);
+			etatUrlItemTf.setColumns(10);
+			etatUrlItemTf.setBorder(null);
+			etatUrlItemTf.setBackground(Color.WHITE);
+			etatUrlItemTf.setBounds(470, debutCpEtatUrl, 150, 22);
+			panel_3.add(etatUrlItemTf);
+
+			etatPasswordItemTf = new JTextField();
+			etatPasswordItemTf.setText("Faible");
+			etatPasswordItemTf.setForeground(new Color(112, 128, 144));
+			etatPasswordItemTf.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			etatPasswordItemTf.setEditable(false);
+			etatPasswordItemTf.setColumns(10);
+			etatPasswordItemTf.setBorder(null);
+			etatPasswordItemTf.setBackground(Color.WHITE);
+			etatPasswordItemTf.setBounds(246, debutCpEtatPassword, 150, 22);
+			panel_3.add(etatPasswordItemTf);
+
+			nomCompletItemTf = new JTextField();
+			nomCompletItemTf.setText("Soumaila Abdoulaye DIARRA");
+			nomCompletItemTf.setForeground(new Color(112, 128, 144));
+			nomCompletItemTf.setFont(new Font("Tahoma", Font.PLAIN, 14));
+			nomCompletItemTf.setEditable(false);
+			nomCompletItemTf.setColumns(10);
+			nomCompletItemTf.setBorder(null);
+			nomCompletItemTf.setBackground(Color.WHITE);
+			nomCompletItemTf.setBounds(12, debutCpNomComplet, 211, 22);
+			panel_3.add(nomCompletItemTf);
+
+			JSeparator separatorItem = new JSeparator();
+			separatorItem.setBounds(0, debutCpSeparator, 759, 7);
+			panel_3.add(separatorItem);
+			
+			debutCpUsername = debutCpUsername + incrementNouvelleLigne;
+			debutCpPassword = debutCpPassword + incrementNouvelleLigne;
+			debutCpIconViewPassword = debutCpIconViewPassword + incrementNouvelleLigne;
+			debutCpUrl = debutCpUrl + incrementNouvelleLigne;
+			debutCpIconEditUpdate = debutCpIconEditUpdate + incrementNouvelleLigne;
+			debutCpIconeDelete = debutCpIconeDelete + incrementNouvelleLigne;
+			debutCpEtatUrl = debutCpEtatUrl + incrementNouvelleLigne;
+			debutCpEtatPassword = debutCpEtatPassword + incrementNouvelleLigne;
+			debutCpNomComplet = debutCpNomComplet + incrementNouvelleLigne;
+			debutCpSeparator = debutCpSeparator + incrementNouvelleLigne;
+			
+
+		}
+
+		panel_3.setPreferredSize(new Dimension(0, 1000));
+
+		return panel_3;
 	}
 }
