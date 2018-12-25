@@ -314,7 +314,7 @@ public class AdminUI {
 		JPanel panel_2 = new JPanel();
 		panel_2.setLayout(null);
 		panel_2.setBackground(new Color(255, 255, 255));
-		panel_2.setBounds(797, 179, 403, 432);
+		panel_2.setBounds(797, 179, 403, 436);
 		frame.getContentPane().add(panel_2);
 
 		JSeparator separator_2 = new JSeparator();
