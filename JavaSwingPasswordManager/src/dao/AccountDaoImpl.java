@@ -227,7 +227,7 @@ public class AccountDaoImpl {
 		return listAccountsBean;
 	}
 	
-	public static List<AccountBean> retrieveAllAccountsByUserId(String userId) throws SQLException {
+	public List<AccountBean> retrieveAllAccountsByUserId(String userId) throws SQLException {
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -241,52 +241,54 @@ public class AccountDaoImpl {
 				return listAccountsBean;
 			}
 			
-			if (UserDaoImpl.testIfUserIdExistInDb(userId) == true) {
-				
-				ps = con.prepareStatement(SELECT_ACCOUNTS_SQL_QUERY_BY_USER_ID);
-				ps.setString(1, userId);
+			if (!Utils.isNullOrEmpty(userId)) {
+				if (UserDaoImpl.testIfUserIdExistInDb(userId) == true) {
+					
+					ps = con.prepareStatement(SELECT_ACCOUNTS_SQL_QUERY_BY_USER_ID);
+					ps.setString(1, userId);
 
-				rs = ps.executeQuery();
-				boolean testRowReturnLigne = rs.next();
-				if (testRowReturnLigne == false) {
+					rs = ps.executeQuery();
+					boolean testRowReturnLigne = rs.next();
+					if (testRowReturnLigne == false) {
+						callDbFunctionBean.setErrorRetour(true);
+						callDbFunctionBean.setCodeRetour(Constants.NOT_FOUND);
+						callDbFunctionBean
+								.setMessageRetour("Il n'y a aucun compte correspondant à l'utilisateur " + userId);
+						accountBean.setCallDbFunctionBean(callDbFunctionBean);
+						listAccountsBean.add(accountBean);
+					}
+
+					while (testRowReturnLigne) {
+						accountBean = new AccountBean();
+						
+						accountBean.setIdentifiantAccount(rs.getString(Constants.A_ID));
+						accountBean.setNameAccount(rs.getString(Constants.A_NAME));
+						accountBean.setUsernameAccount(rs.getString(Constants.A_USERNAME));
+						accountBean.setPasswordAccount(AESEncryption.decrypt(rs.getString(Constants.A_PASSWORD)));
+						accountBean.setUrlAccount(rs.getString(Constants.A_URL));
+						accountBean.setCreateDateAccount(rs.getString(Constants.A_CREATE_DATE));
+						accountBean.setLastUpdateDateAccount(rs.getString(Constants.A_LAST_UPDATE));
+						
+						userBean.setIdentifiantUser(rs.getString(Constants.PM_USER_U_ID));
+						accountBean.setUserBean(userBean);
+						
+						callDbFunctionBean.setErrorRetour(false);
+						callDbFunctionBean.setCodeRetour(Constants.COMPLETED_SUCCESSFULLY);
+						callDbFunctionBean.setMessageRetour("Le compte a été retrouver avec succès !");
+						accountBean.setCallDbFunctionBean(callDbFunctionBean);
+						listAccountsBean.add(accountBean);
+
+						testRowReturnLigne = rs.next();
+					}
+					
+				} else {
+					
 					callDbFunctionBean.setErrorRetour(true);
-					callDbFunctionBean.setCodeRetour(Constants.NOT_FOUND);
-					callDbFunctionBean
-							.setMessageRetour("Il n'y a aucun compte correspondant à l'utilisateur " + userId);
+					callDbFunctionBean.setCodeRetour(Constants.USER_ID_NOT_EXIST);
+					callDbFunctionBean.setMessageRetour("L'identifiant utilisateur "
+							+ accountBean.getUserBean().getIdentifiantUser() + " n'existe pas dans la base de donnée !");
 					accountBean.setCallDbFunctionBean(callDbFunctionBean);
-					listAccountsBean.add(accountBean);
 				}
-
-				while (testRowReturnLigne) {
-					accountBean = new AccountBean();
-					
-					accountBean.setIdentifiantAccount(rs.getString(Constants.A_ID));
-					accountBean.setNameAccount(rs.getString(Constants.A_NAME));
-					accountBean.setUsernameAccount(rs.getString(Constants.A_USERNAME));
-					accountBean.setPasswordAccount(AESEncryption.decrypt(rs.getString(Constants.A_PASSWORD)));
-					accountBean.setUrlAccount(rs.getString(Constants.A_URL));
-					accountBean.setCreateDateAccount(rs.getString(Constants.A_CREATE_DATE));
-					accountBean.setLastUpdateDateAccount(rs.getString(Constants.A_LAST_UPDATE));
-					
-					userBean.setIdentifiantUser(rs.getString(Constants.PM_USER_U_ID));
-					accountBean.setUserBean(userBean);
-					
-					callDbFunctionBean.setErrorRetour(false);
-					callDbFunctionBean.setCodeRetour(Constants.COMPLETED_SUCCESSFULLY);
-					callDbFunctionBean.setMessageRetour("Le compte a été retrouver avec succès !");
-					accountBean.setCallDbFunctionBean(callDbFunctionBean);
-					listAccountsBean.add(accountBean);
-
-					testRowReturnLigne = rs.next();
-				}
-				
-			} else {
-				
-				callDbFunctionBean.setErrorRetour(true);
-				callDbFunctionBean.setCodeRetour(Constants.USER_ID_NOT_EXIST);
-				callDbFunctionBean.setMessageRetour("L'identifiant utilisateur "
-						+ accountBean.getUserBean().getIdentifiantUser() + " n'existe pas dans la base de donnée !");
-				accountBean.setCallDbFunctionBean(callDbFunctionBean);
 			}
 
 		} catch (SQLException e) {

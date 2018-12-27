@@ -5,8 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
+import bean.AccountBean;
 import bean.AccountItemView;
 import bean.UserBean;
+import dao.AccountDaoImpl;
 import utils.Constants;
 import utils.Utils;
 
@@ -23,6 +25,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.border.LineBorder;
 import javax.swing.border.EtchedBorder;
@@ -66,6 +70,8 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 	JLabel lblCompte;
 	JButton ajouterEditBtn;
 	JLabel iconViewOrHidePasswordEditLbl;
+	JLabel identifiantUserConnectedLbl;
+	
 
 	/**
 	 * Launch the application.
@@ -92,7 +98,10 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 
 	public AdminUI(UserBean userBean) {
 		initialize();
-
+		
+		identifiantUserConnectedLbl.setText(userBean.getIdentifiantUser());
+		System.out.println("userBean " + userBean.getIdentifiantUser());
+		System.out.println("label " + identifiantUserConnectedLbl.getText());
 		userNameLbl.setText(userBean.getNameUser());
 		userEmailLbl.setText(userBean.getEmailUser());
 	}
@@ -317,6 +326,12 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		identifiantItemHiddenTxtFld.setFont(new Font("Tahoma", Font.BOLD, 16));
 		identifiantItemHiddenTxtFld.setBounds(408, 154, 23, 19);
 		panel_1.add(identifiantItemHiddenTxtFld);
+		
+		identifiantUserConnectedLbl = new JLabel("");
+		identifiantUserConnectedLbl.setVisible(false);
+		identifiantUserConnectedLbl.setForeground(new Color(112, 128, 144));
+		identifiantUserConnectedLbl.setBounds(725, 30, 61, 16);
+		panel_1.add(identifiantUserConnectedLbl);
 
 		JLabel label_6 = new JLabel("");
 		label_6.setOpaque(true);
@@ -529,192 +544,206 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		int debutCpSeparator = 58;
 		int incrementNouvelleLigne = 67;
 		int i;
-		for (i = 0; i < 10; i++) {
+		
+		AccountDaoImpl accountDaoImpl = new AccountDaoImpl();
+		List<AccountBean> accounts = new ArrayList<AccountBean>();
+		try {
+			System.out.println(identifiantUserConnectedLbl.getText());
+			//accounts = accountDaoImpl.retrieveAllAccountsByUserId(identifiantUserConnectedLbl.getText());
+			accounts = accountDaoImpl.retrieveAllAccountsByUserId("c858cfb2-e53b-43cf-bc81-66cb85b8fdd0");
+			for (AccountBean accountBean : accounts) {
+				if ((accountBean.getCallDbFunctionBean().getCodeRetour() == Constants.COMPLETED_SUCCESSFULLY) && (accountBean.getCallDbFunctionBean().isErrorRetour() == false)) {
+					JTextField usernameItemTf;
+					JTextField passwordItemTf;
+					JTextField urlItemTf;
+					JTextField etatUrlItemTf;
+					JTextField etatPasswordItemTf;
+					JTextField nomCompletItemTf;
 
-			JTextField usernameItemTf;
-			JTextField passwordItemTf;
-			JTextField urlItemTf;
-			JTextField etatUrlItemTf;
-			JTextField etatPasswordItemTf;
-			JTextField nomCompletItemTf;
+					usernameItemTf = new JTextField();
+					usernameItemTf.setText(accountBean.getUsernameAccount());
+					usernameItemTf.setForeground(new Color(112, 128, 144));
+					usernameItemTf.setFont(new Font("Tahoma", Font.BOLD, 15));
+					usernameItemTf.setEditable(false);
+					usernameItemTf.setColumns(10);
+					usernameItemTf.setBorder(null);
+					usernameItemTf.setBackground(Color.WHITE);
+					usernameItemTf.setBounds(12, debutCpUsername, 211, 22);
+					panel_3.add(usernameItemTf);
 
-			usernameItemTf = new JTextField();
-			usernameItemTf.setText("soumgraphic@gmail.com");
-			usernameItemTf.setForeground(new Color(112, 128, 144));
-			usernameItemTf.setFont(new Font("Tahoma", Font.BOLD, 15));
-			usernameItemTf.setEditable(false);
-			usernameItemTf.setColumns(10);
-			usernameItemTf.setBorder(null);
-			usernameItemTf.setBackground(Color.WHITE);
-			usernameItemTf.setBounds(12, debutCpUsername, 211, 22);
-			panel_3.add(usernameItemTf);
+					passwordItemTf = new JTextField();
+					passwordItemTf.setText(accountBean.getPasswordAccount());
+					passwordItemTf.setForeground(new Color(112, 128, 144));
+					passwordItemTf.setFont(new Font("Tahoma", Font.BOLD, 15));
+					passwordItemTf.setEditable(false);
+					passwordItemTf.setColumns(10);
+					passwordItemTf.setBorder(null);
+					passwordItemTf.setBackground(Color.WHITE);
+					passwordItemTf.setBounds(246, debutCpPassword, 150, 22);
+					panel_3.add(passwordItemTf);
 
-			passwordItemTf = new JTextField();
-			passwordItemTf.setText("**********");
-			passwordItemTf.setForeground(new Color(112, 128, 144));
-			passwordItemTf.setFont(new Font("Tahoma", Font.BOLD, 15));
-			passwordItemTf.setEditable(false);
-			passwordItemTf.setColumns(10);
-			passwordItemTf.setBorder(null);
-			passwordItemTf.setBackground(Color.WHITE);
-			passwordItemTf.setBounds(246, debutCpPassword, 150, 22);
-			panel_3.add(passwordItemTf);
+					JLabel iconViewPasswordItem = new JLabel("");
+					iconViewPasswordItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					iconViewPasswordItem.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/eye.png")));
+					iconViewPasswordItem.setForeground(new Color(112, 128, 144));
+					iconViewPasswordItem.setFont(new Font("Tahoma", Font.BOLD, 16));
+					iconViewPasswordItem.setBounds(408, debutCpIconViewPassword, 23, 23);
+					panel_3.add(iconViewPasswordItem);
 
-			JLabel iconViewPasswordItem = new JLabel("");
-			iconViewPasswordItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			iconViewPasswordItem.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/eye.png")));
-			iconViewPasswordItem.setForeground(new Color(112, 128, 144));
-			iconViewPasswordItem.setFont(new Font("Tahoma", Font.BOLD, 16));
-			iconViewPasswordItem.setBounds(408, debutCpIconViewPassword, 23, 23);
-			panel_3.add(iconViewPasswordItem);
+					urlItemTf = new JTextField();
+					urlItemTf.setText(accountBean.getUrlAccount());
+					urlItemTf.setForeground(new Color(112, 128, 144));
+					urlItemTf.setFont(new Font("Tahoma", Font.BOLD, 15));
+					urlItemTf.setEditable(false);
+					urlItemTf.setColumns(10);
+					urlItemTf.setBorder(null);
+					urlItemTf.setBackground(Color.WHITE);
+					urlItemTf.setBounds(470, debutCpUrl, 160, 22);
+					panel_3.add(urlItemTf);
 
-			urlItemTf = new JTextField();
-			urlItemTf.setText("www.youtube.com");
-			urlItemTf.setForeground(new Color(112, 128, 144));
-			urlItemTf.setFont(new Font("Tahoma", Font.BOLD, 15));
-			urlItemTf.setEditable(false);
-			urlItemTf.setColumns(10);
-			urlItemTf.setBorder(null);
-			urlItemTf.setBackground(Color.WHITE);
-			urlItemTf.setBounds(470, debutCpUrl, 160, 22);
-			panel_3.add(urlItemTf);
+					//String message = "Item url " + i;
 
-			String message = "Item url " + i;
+					JLabel iconEditupdateItem = new JLabel("");
+					iconEditupdateItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					iconEditupdateItem.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/edit_icon.png")));
+					iconEditupdateItem.setBounds(655, debutCpIconEditUpdate, 30, 30);
+					panel_3.add(iconEditupdateItem);
 
-			JLabel iconEditupdateItem = new JLabel("");
-			iconEditupdateItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			iconEditupdateItem.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/edit_icon.png")));
-			iconEditupdateItem.setBounds(655, debutCpIconEditUpdate, 30, 30);
-			panel_3.add(iconEditupdateItem);
+					JLabel iconeDeleteItem = new JLabel("");
+					iconeDeleteItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+					iconeDeleteItem.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/delete_icon.png")));
+					iconeDeleteItem.setBounds(704, debutCpIconeDelete, 30, 30);
+					panel_3.add(iconeDeleteItem);
 
-			JLabel iconeDeleteItem = new JLabel("");
-			iconeDeleteItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-			iconeDeleteItem.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/delete_icon.png")));
-			iconeDeleteItem.setBounds(704, debutCpIconeDelete, 30, 30);
-			panel_3.add(iconeDeleteItem);
+					etatUrlItemTf = new JTextField();
+					etatUrlItemTf.setText("Site fiable");
+					etatUrlItemTf.setForeground(new Color(112, 128, 144));
+					etatUrlItemTf.setFont(new Font("Tahoma", Font.PLAIN, 14));
+					etatUrlItemTf.setEditable(false);
+					etatUrlItemTf.setColumns(10);
+					etatUrlItemTf.setBorder(null);
+					etatUrlItemTf.setBackground(Color.WHITE);
+					etatUrlItemTf.setBounds(470, debutCpEtatUrl, 150, 22);
+					panel_3.add(etatUrlItemTf);
 
-			etatUrlItemTf = new JTextField();
-			etatUrlItemTf.setText("Site fiable");
-			etatUrlItemTf.setForeground(new Color(112, 128, 144));
-			etatUrlItemTf.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			etatUrlItemTf.setEditable(false);
-			etatUrlItemTf.setColumns(10);
-			etatUrlItemTf.setBorder(null);
-			etatUrlItemTf.setBackground(Color.WHITE);
-			etatUrlItemTf.setBounds(470, debutCpEtatUrl, 150, 22);
-			panel_3.add(etatUrlItemTf);
+					etatPasswordItemTf = new JTextField();
+					etatPasswordItemTf.setText("Faible");
+					etatPasswordItemTf.setForeground(new Color(112, 128, 144));
+					etatPasswordItemTf.setFont(new Font("Tahoma", Font.PLAIN, 14));
+					etatPasswordItemTf.setEditable(false);
+					etatPasswordItemTf.setColumns(10);
+					etatPasswordItemTf.setBorder(null);
+					etatPasswordItemTf.setBackground(Color.WHITE);
+					etatPasswordItemTf.setBounds(246, debutCpEtatPassword, 150, 22);
+					panel_3.add(etatPasswordItemTf);
 
-			etatPasswordItemTf = new JTextField();
-			etatPasswordItemTf.setText("Faible");
-			etatPasswordItemTf.setForeground(new Color(112, 128, 144));
-			etatPasswordItemTf.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			etatPasswordItemTf.setEditable(false);
-			etatPasswordItemTf.setColumns(10);
-			etatPasswordItemTf.setBorder(null);
-			etatPasswordItemTf.setBackground(Color.WHITE);
-			etatPasswordItemTf.setBounds(246, debutCpEtatPassword, 150, 22);
-			panel_3.add(etatPasswordItemTf);
+					nomCompletItemTf = new JTextField();
+					nomCompletItemTf.setText(accountBean.getNameAccount());
+					nomCompletItemTf.setForeground(new Color(112, 128, 144));
+					nomCompletItemTf.setFont(new Font("Tahoma", Font.PLAIN, 14));
+					nomCompletItemTf.setEditable(false);
+					nomCompletItemTf.setColumns(10);
+					nomCompletItemTf.setBorder(null);
+					nomCompletItemTf.setBackground(Color.WHITE);
+					nomCompletItemTf.setBounds(12, debutCpNomComplet, 211, 22);
+					panel_3.add(nomCompletItemTf);
 
-			nomCompletItemTf = new JTextField();
-			nomCompletItemTf.setText("Soumaila Abdoulaye DIARRA");
-			nomCompletItemTf.setForeground(new Color(112, 128, 144));
-			nomCompletItemTf.setFont(new Font("Tahoma", Font.PLAIN, 14));
-			nomCompletItemTf.setEditable(false);
-			nomCompletItemTf.setColumns(10);
-			nomCompletItemTf.setBorder(null);
-			nomCompletItemTf.setBackground(Color.WHITE);
-			nomCompletItemTf.setBounds(12, debutCpNomComplet, 211, 22);
-			panel_3.add(nomCompletItemTf);
+					JSeparator separatorItem = new JSeparator();
+					separatorItem.setBounds(0, debutCpSeparator, 759, 7);
+					panel_3.add(separatorItem);
 
-			JSeparator separatorItem = new JSeparator();
-			separatorItem.setBounds(0, debutCpSeparator, 759, 7);
-			panel_3.add(separatorItem);
+					urlItemTf.addMouseListener(new MouseListener() {
 
-			urlItemTf.addMouseListener(new MouseListener() {
+						@Override
+						public void mouseReleased(MouseEvent e) {
+							// TODO Auto-generated method stub
 
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
+						}
 
+						@Override
+						public void mousePressed(MouseEvent e) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void mouseExited(MouseEvent e) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							// TODO Auto-generated method stub
+
+						}
+
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							//Utils.showErrorMessage(frame, message);
+
+						}
+					});
+					
+					iconEditupdateItem.addMouseListener(new MouseListener() {
+						
+						@Override
+						public void mouseReleased(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void mousePressed(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void mouseExited(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							// TODO Auto-generated method stub
+							nomCompletEditTxtFld.setText(nomCompletItemTf.getText());
+							usernameEditTxtFld.setText(usernameItemTf.getText());
+							passwordEditTxtFld.setText(passwordItemTf.getText());
+							urlEditTxtFld.setText(urlItemTf.getText());
+							
+							ajouterEditBtn.setText("Mettre à jour ");
+							ajouterEditBtn.setActionCommand("majEditBtn");
+							
+							
+						}
+					});
+
+					debutCpUsername = debutCpUsername + incrementNouvelleLigne;
+					debutCpPassword = debutCpPassword + incrementNouvelleLigne;
+					debutCpIconViewPassword = debutCpIconViewPassword + incrementNouvelleLigne;
+					debutCpUrl = debutCpUrl + incrementNouvelleLigne;
+					debutCpIconEditUpdate = debutCpIconEditUpdate + incrementNouvelleLigne;
+					debutCpIconeDelete = debutCpIconeDelete + incrementNouvelleLigne;
+					debutCpEtatUrl = debutCpEtatUrl + incrementNouvelleLigne;
+					debutCpEtatPassword = debutCpEtatPassword + incrementNouvelleLigne;
+					debutCpNomComplet = debutCpNomComplet + incrementNouvelleLigne;
+					debutCpSeparator = debutCpSeparator + incrementNouvelleLigne;
+				}else {
+					System.out.println(accountBean.getCallDbFunctionBean().getMessageRetour());
 				}
-
-				@Override
-				public void mousePressed(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mouseExited(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					// TODO Auto-generated method stub
-
-				}
-
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					Utils.showErrorMessage(frame, message);
-
-				}
-			});
+			}
 			
-			iconEditupdateItem.addMouseListener(new MouseListener() {
-				
-				@Override
-				public void mouseReleased(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mousePressed(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseExited(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseEntered(MouseEvent e) {
-					// TODO Auto-generated method stub
-					
-				}
-				
-				@Override
-				public void mouseClicked(MouseEvent e) {
-					// TODO Auto-generated method stub
-					nomCompletEditTxtFld.setText(nomCompletItemTf.getText());
-					usernameEditTxtFld.setText(usernameItemTf.getText());
-					passwordEditTxtFld.setText(passwordItemTf.getText());
-					urlEditTxtFld.setText(urlItemTf.getText());
-					
-					ajouterEditBtn.setText("Mettre à jour ");
-					ajouterEditBtn.setActionCommand("majEditBtn");
-					
-					
-				}
-			});
-
-			debutCpUsername = debutCpUsername + incrementNouvelleLigne;
-			debutCpPassword = debutCpPassword + incrementNouvelleLigne;
-			debutCpIconViewPassword = debutCpIconViewPassword + incrementNouvelleLigne;
-			debutCpUrl = debutCpUrl + incrementNouvelleLigne;
-			debutCpIconEditUpdate = debutCpIconEditUpdate + incrementNouvelleLigne;
-			debutCpIconeDelete = debutCpIconeDelete + incrementNouvelleLigne;
-			debutCpEtatUrl = debutCpEtatUrl + incrementNouvelleLigne;
-			debutCpEtatPassword = debutCpEtatPassword + incrementNouvelleLigne;
-			debutCpNomComplet = debutCpNomComplet + incrementNouvelleLigne;
-			debutCpSeparator = debutCpSeparator + incrementNouvelleLigne;
-
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		panel_3.setPreferredSize(new Dimension(0, 1000));
