@@ -12,9 +12,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.JOptionPane;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+
+import ui.AdminUI;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 public class Utils {
 
@@ -76,7 +82,16 @@ public class Utils {
 	}
 
 	public static void showErrorMessage(JFrame frame, String message) {
-		JOptionPane.showMessageDialog(frame, message + " :)", "Password Manager - Erreur", 0);
+		final ImageIcon icon = new ImageIcon("src/ui/images/cancel.png");
+		JOptionPane.showMessageDialog(frame, message + " :)", "Password Manager - Erreur",
+				JOptionPane.INFORMATION_MESSAGE, icon);
+	}
+
+	public static int showConfirmDialog(JFrame frame, String message) {
+		ImageIcon icon = new ImageIcon("src/ui/images/warning.png");
+		int input = JOptionPane.showConfirmDialog(frame, message,
+				"Password Manager - Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, icon);
+		return input;
 	}
 
 	public static void showSuccessMessage(JFrame frame, String message) {
@@ -90,13 +105,36 @@ public class Utils {
 			button.setEnabled(true);
 		}
 	}
-	
+
 	public static void openWebpage(String urlString) {
-	    try {
-	        Desktop.getDesktop().browse(new URL(urlString).toURI());
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
+		try {
+			Desktop.getDesktop().browse(new URL(urlString).toURI());
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static final void showOrHidePasswordTxtFields(JPasswordField passwordField, JLabel labelForChangeIcon, char caractereCodagePass) {
+		// TODO Auto-generated method stub
+		String nomImage = labelForChangeIcon.getIcon().toString();
+		//Split le chemin et recupère la dernière occurence de nom
+		nomImage = nomImage.substring(nomImage.lastIndexOf("/")+1);
+		
+		String pass = passwordField.getText().toString();
+		if (nomImage.equals("eye.png")) {
+			passwordField.setEchoChar((char)0);
+			labelForChangeIcon.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/eye_invisible.png")));
+		}else if (nomImage.equals("eye_invisible.png")) {
+			passwordField.setEchoChar(caractereCodagePass);
+			labelForChangeIcon.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/eye.png")));
+		}else if(nomImage.equals("eye_white.png")) {
+			passwordField.setEchoChar((char)0);
+			labelForChangeIcon.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/eye_invisible_white.png")));
+		}
+		else if (nomImage.equals("eye_invisible_white.png")) {
+			passwordField.setEchoChar(caractereCodagePass);
+			labelForChangeIcon.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/eye_white.png")));
+		}
 	}
 
 }

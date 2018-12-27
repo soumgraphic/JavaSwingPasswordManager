@@ -41,4 +41,11 @@ public class Constants {
 	public static final int USER_ID_NOT_EXIST = 40;
 	public static final int ACCOUNT_ID_NOT_EXIST = 45;
 	
+	/*
+	 * Social network links
+	 */
+	public static final String URL_GITHUB = "https://github.com/soumgraphic";
+	public static final String URL_FACEBOOK = "https://www.facebook.com/soumgraphic/";
+	public static final String URL_TWITTER = "https://twitter.com/soumailaadiarra";
+	
 }

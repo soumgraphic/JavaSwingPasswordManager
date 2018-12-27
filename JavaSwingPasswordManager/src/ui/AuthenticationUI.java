@@ -9,6 +9,8 @@ import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JTextField;
 import javax.swing.JSeparator;
@@ -37,6 +39,7 @@ public class AuthenticationUI extends JFrame implements ActionListener{
 	private JPasswordField passwordTxtfield;
 	private JButton connexionBtn;
 	private JButton goToInscription;
+	JLabel iconViewOrHidePasswordEditLbl;
 
 	/**
 	 * Launch the application.
@@ -150,7 +153,8 @@ public class AuthenticationUI extends JFrame implements ActionListener{
 		passwordTxtfield.setBackground(new Color(60, 179, 113));
 		passwordTxtfield.setForeground(new Color(255, 255, 255));
 		passwordTxtfield.setFont(new Font("Tahoma", Font.BOLD, 12));
-		passwordTxtfield.setBounds(51, 262, 320, 16);
+		passwordTxtfield.setBounds(51, 262, 282, 16);
+		passwordTxtfield.setEchoChar('*');
 		panel_1.add(passwordTxtfield);
 		
 		connexionBtn = new JButton("Se connecter");
@@ -177,6 +181,47 @@ public class AuthenticationUI extends JFrame implements ActionListener{
 		goToInscription.setActionCommand("goToInscription");
 		goToInscription.addActionListener(this);
 		panel_1.add(goToInscription);
+		
+		iconViewOrHidePasswordEditLbl = new JLabel("");
+		iconViewOrHidePasswordEditLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		iconViewOrHidePasswordEditLbl.setIcon(new ImageIcon(AuthenticationUI.class.getResource("/ui/images/eye_white.png")));
+		iconViewOrHidePasswordEditLbl.setForeground(new Color(112, 128, 144));
+		iconViewOrHidePasswordEditLbl.setFont(new Font("Tahoma", Font.BOLD, 16));
+		iconViewOrHidePasswordEditLbl.setBounds(345, 259, 23, 23);
+		panel_1.add(iconViewOrHidePasswordEditLbl);
+		
+		iconViewOrHidePasswordEditLbl.addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				Utils.showOrHidePasswordTxtFields(passwordTxtfield, iconViewOrHidePasswordEditLbl, '*');
+			}
+		});
 		
 		
 	}

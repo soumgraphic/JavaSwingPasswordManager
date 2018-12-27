@@ -7,6 +7,8 @@ import javax.swing.JTextField;
 
 import bean.AccountItemView;
 import bean.UserBean;
+import utils.Constants;
+import utils.Utils;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -17,6 +19,8 @@ import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.Panel;
 import java.awt.ScrollPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -36,7 +40,7 @@ import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.AbstractListModel;
 
-public class AdminUI {
+public class AdminUI extends JFrame implements ActionListener, MouseListener {
 
 	public JFrame frame;
 	JLabel userNameLbl;
@@ -46,14 +50,22 @@ public class AdminUI {
 	private JTextField usernameEditTxtFld;
 	private JPasswordField passwordEditTxtFld;
 	private JTextField urlEditTxtFld;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTextField textField_2;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
+	JLabel userIconLbl;
+	JLabel lblPasswordManager;
+	JLabel scoreSecuriteLbl;
+	JLabel scoreSecuritePourcentageLbl;
+	JLabel disconnectLbl;
+	JLabel nbreCompteEnregistrerLbl;
+	JLabel chiffreNbreCompteEnregistrerLbl;
+	JLabel lblWeAreHappy;
+	JLabel githubIconLbl;
+	JLabel fbIconLbl;
+	JLabel twitterIconLbl;
+	JLabel iconeTextCompteEnregistrerLbl;
+	JLabel compteEnregistrerLbl;
+	JLabel lblCompte;
+	JButton ajouterEditBtn;
+	JLabel iconViewOrHidePasswordEditLbl;
 
 	/**
 	 * Launch the application.
@@ -83,7 +95,6 @@ public class AdminUI {
 
 		userNameLbl.setText(userBean.getNameUser());
 		userEmailLbl.setText(userBean.getEmailUser());
-
 	}
 
 	/**
@@ -101,7 +112,7 @@ public class AdminUI {
 		frame.getContentPane().add(panel);
 		panel.setLayout(null);
 
-		JLabel userIconLbl = new JLabel("");
+		userIconLbl = new JLabel("");
 		userIconLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		userIconLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/user.png")));
 		userIconLbl.setBounds(1016, 13, 60, 60);
@@ -136,7 +147,7 @@ public class AdminUI {
 		label.setBorder(null);
 		label.setAlignmentX(0.5f);
 
-		JLabel lblPasswordManager = new JLabel("<html>\r\nPassword Manager\r\n</html>");
+		lblPasswordManager = new JLabel("<html>\r\nPassword Manager\r\n</html>");
 		lblPasswordManager.setForeground(new Color(112, 128, 144));
 		lblPasswordManager.setFont(new Font("Tahoma", Font.BOLD, 16));
 		lblPasswordManager.setBounds(31, 99, 154, 20);
@@ -162,13 +173,13 @@ public class AdminUI {
 		separator_4.setBounds(214, 61, 688, 12);
 		panel.add(separator_4);
 
-		JLabel scoreSecuriteLbl = new JLabel("Score de sécurité");
+		scoreSecuriteLbl = new JLabel("Score de sécurité");
 		scoreSecuriteLbl.setForeground(new Color(112, 128, 144));
 		scoreSecuriteLbl.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		scoreSecuriteLbl.setBounds(228, 88, 105, 17);
 		panel.add(scoreSecuriteLbl);
 
-		JLabel scoreSecuritePourcentageLbl = new JLabel("74%");
+		scoreSecuritePourcentageLbl = new JLabel("74%");
 		scoreSecuritePourcentageLbl.setFont(new Font("Tahoma", Font.BOLD, 18));
 		scoreSecuritePourcentageLbl.setForeground(new Color(112, 128, 144));
 		scoreSecuritePourcentageLbl.setBounds(259, 111, 44, 22);
@@ -179,11 +190,12 @@ public class AdminUI {
 		separator_5.setBounds(355, 72, 10, 78);
 		panel.add(separator_5);
 
-		JLabel disconnectLbl = new JLabel("");
+		disconnectLbl = new JLabel("");
 		disconnectLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		disconnectLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/logout.png")));
 		disconnectLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		disconnectLbl.setBounds(812, 77, 64, 64);
+		disconnectLbl.addMouseListener(this);
 		panel.add(disconnectLbl);
 
 		JSeparator separator_6 = new JSeparator();
@@ -191,13 +203,13 @@ public class AdminUI {
 		separator_6.setBounds(790, 71, 10, 78);
 		panel.add(separator_6);
 
-		JLabel nbreCompteEnregistrerLbl = new JLabel("Nombre de compte enregistré");
+		nbreCompteEnregistrerLbl = new JLabel("Nombre de compte enregistré");
 		nbreCompteEnregistrerLbl.setForeground(new Color(112, 128, 144));
 		nbreCompteEnregistrerLbl.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		nbreCompteEnregistrerLbl.setBounds(377, 86, 183, 17);
 		panel.add(nbreCompteEnregistrerLbl);
 
-		JLabel chiffreNbreCompteEnregistrerLbl = new JLabel("10");
+		chiffreNbreCompteEnregistrerLbl = new JLabel("10");
 		chiffreNbreCompteEnregistrerLbl.setForeground(new Color(112, 128, 144));
 		chiffreNbreCompteEnregistrerLbl.setFont(new Font("Tahoma", Font.BOLD, 18));
 		chiffreNbreCompteEnregistrerLbl.setBounds(457, 111, 22, 22);
@@ -208,32 +220,39 @@ public class AdminUI {
 		separator_8.setBounds(572, 72, 10, 78);
 		panel.add(separator_8);
 
-		JLabel lblWeAreHappy = new JLabel("We are happy you like it !");
+		lblWeAreHappy = new JLabel("We are happy you like it !");
 		lblWeAreHappy.setHorizontalAlignment(SwingConstants.CENTER);
 		lblWeAreHappy.setForeground(new Color(112, 128, 144));
 		lblWeAreHappy.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblWeAreHappy.setBounds(595, 89, 183, 17);
 		panel.add(lblWeAreHappy);
 
-		JLabel githubIconLbl = new JLabel("");
+		githubIconLbl = new JLabel("");
+		githubIconLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		githubIconLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/github_logo.png")));
 		githubIconLbl.setForeground(new Color(112, 128, 144));
 		githubIconLbl.setFont(new Font("Tahoma", Font.BOLD, 16));
 		githubIconLbl.setBounds(640, 115, 23, 23);
+		githubIconLbl.addMouseListener(this);
+
 		panel.add(githubIconLbl);
 
-		JLabel fbIconLbl = new JLabel("");
+		fbIconLbl = new JLabel("");
+		fbIconLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		fbIconLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/facebook.png")));
 		fbIconLbl.setForeground(new Color(112, 128, 144));
 		fbIconLbl.setFont(new Font("Tahoma", Font.BOLD, 16));
 		fbIconLbl.setBounds(675, 115, 24, 24);
+		fbIconLbl.addMouseListener(this);
 		panel.add(fbIconLbl);
 
-		JLabel twitterIconLbl = new JLabel("");
+		twitterIconLbl = new JLabel("");
+		twitterIconLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		twitterIconLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/twitter.png")));
 		twitterIconLbl.setForeground(new Color(112, 128, 144));
 		twitterIconLbl.setFont(new Font("Tahoma", Font.BOLD, 16));
 		twitterIconLbl.setBounds(711, 116, 24, 24);
+		twitterIconLbl.addMouseListener(this);
 		panel.add(twitterIconLbl);
 
 		JLabel lblNewLabel_2 = new JLabel("");
@@ -252,19 +271,19 @@ public class AdminUI {
 		separator_3.setBounds(0, 58, 792, 12);
 		panel_1.add(separator_3);
 
-		JLabel iconeTextCompteEnregistrerLbl = new JLabel("");
+		iconeTextCompteEnregistrerLbl = new JLabel("");
 		iconeTextCompteEnregistrerLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/lock_pass.png")));
 		iconeTextCompteEnregistrerLbl.setBounds(12, 13, 32, 32);
 		panel_1.add(iconeTextCompteEnregistrerLbl);
 
-		JLabel compteEnregistrerLbl = new JLabel("Compte enregistré");
+		compteEnregistrerLbl = new JLabel("Compte enregistré");
 		compteEnregistrerLbl.setFont(new Font("Tahoma", Font.BOLD, 17));
 		compteEnregistrerLbl.setForeground(new Color(112, 128, 144));
 		compteEnregistrerLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		compteEnregistrerLbl.setBounds(56, 18, 167, 22);
 		panel_1.add(compteEnregistrerLbl);
 
-		JLabel lblCompte = new JLabel("Compte");
+		lblCompte = new JLabel("Compte");
 		lblCompte.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblCompte.setForeground(new Color(112, 128, 144));
 		lblCompte.setBounds(12, 72, 56, 16);
@@ -389,7 +408,8 @@ public class AdminUI {
 		passwordEditTxtFld.setCaretColor(new Color(60, 179, 113));
 		passwordEditTxtFld.setBorder(null);
 		passwordEditTxtFld.setBackground(new Color(255, 255, 255));
-		passwordEditTxtFld.setBounds(12, 236, 350, 16);
+		passwordEditTxtFld.setBounds(12, 236, 315, 16);
+		passwordEditTxtFld.setEchoChar('*');
 		panel_2.add(passwordEditTxtFld);
 
 		JSeparator separator_11 = new JSeparator();
@@ -420,16 +440,26 @@ public class AdminUI {
 		lblUrl_1.setBounds(12, 277, 282, 16);
 		panel_2.add(lblUrl_1);
 
-		JButton ajouterEditBtn = new JButton("Ajouter");
+		ajouterEditBtn = new JButton("Ajouter");
 		ajouterEditBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		ajouterEditBtn.setForeground(new Color(60, 179, 113));
 		ajouterEditBtn.setFont(new Font("Tahoma", Font.BOLD, 14));
 		ajouterEditBtn.setFocusPainted(false);
 		ajouterEditBtn.setContentAreaFilled(false);
 		ajouterEditBtn.setBorder(new LineBorder(new Color(60, 179, 113)));
-		ajouterEditBtn.setActionCommand("inscriptionBtn");
+		ajouterEditBtn.setActionCommand("ajouterEditBtn");
 		ajouterEditBtn.setBounds(12, 356, 350, 40);
+		ajouterEditBtn.addActionListener(this);
 		panel_2.add(ajouterEditBtn);
+		
+		iconViewOrHidePasswordEditLbl = new JLabel("");
+		iconViewOrHidePasswordEditLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		iconViewOrHidePasswordEditLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/eye.png")));
+		iconViewOrHidePasswordEditLbl.setForeground(new Color(112, 128, 144));
+		iconViewOrHidePasswordEditLbl.setFont(new Font("Tahoma", Font.BOLD, 16));
+		iconViewOrHidePasswordEditLbl.setBounds(339, 233, 23, 23);
+		iconViewOrHidePasswordEditLbl.addMouseListener(this);
+		panel_2.add(iconViewOrHidePasswordEditLbl);
 
 		JPanel panelGeneralViewAllItems = new JPanel();
 		panelGeneralViewAllItems.setBackground(Color.WHITE);
@@ -498,8 +528,8 @@ public class AdminUI {
 		int debutCpNomComplet = 32;
 		int debutCpSeparator = 58;
 		int incrementNouvelleLigne = 67;
-
-		for (int i = 0; i < 10; i++) {
+		int i;
+		for (i = 0; i < 10; i++) {
 
 			JTextField usernameItemTf;
 			JTextField passwordItemTf;
@@ -549,6 +579,8 @@ public class AdminUI {
 			urlItemTf.setBounds(470, debutCpUrl, 160, 22);
 			panel_3.add(urlItemTf);
 
+			String message = "Item url " + i;
+
 			JLabel iconEditupdateItem = new JLabel("");
 			iconEditupdateItem.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 			iconEditupdateItem.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/edit_icon.png")));
@@ -597,7 +629,81 @@ public class AdminUI {
 			JSeparator separatorItem = new JSeparator();
 			separatorItem.setBounds(0, debutCpSeparator, 759, 7);
 			panel_3.add(separatorItem);
+
+			urlItemTf.addMouseListener(new MouseListener() {
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					Utils.showErrorMessage(frame, message);
+
+				}
+			});
 			
+			iconEditupdateItem.addMouseListener(new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+					nomCompletEditTxtFld.setText(nomCompletItemTf.getText());
+					usernameEditTxtFld.setText(usernameItemTf.getText());
+					passwordEditTxtFld.setText(passwordItemTf.getText());
+					urlEditTxtFld.setText(urlItemTf.getText());
+					
+					ajouterEditBtn.setText("Mettre à jour ");
+					ajouterEditBtn.setActionCommand("majEditBtn");
+					
+					
+				}
+			});
+
 			debutCpUsername = debutCpUsername + incrementNouvelleLigne;
 			debutCpPassword = debutCpPassword + incrementNouvelleLigne;
 			debutCpIconViewPassword = debutCpIconViewPassword + incrementNouvelleLigne;
@@ -608,12 +714,94 @@ public class AdminUI {
 			debutCpEtatPassword = debutCpEtatPassword + incrementNouvelleLigne;
 			debutCpNomComplet = debutCpNomComplet + incrementNouvelleLigne;
 			debutCpSeparator = debutCpSeparator + incrementNouvelleLigne;
-			
 
 		}
 
 		panel_3.setPreferredSize(new Dimension(0, 1000));
 
 		return panel_3;
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		if ("ajouterEditBtn".equals(e.getActionCommand())) {
+			ajoutDunNouveauCompte();
+		}else if("majEditBtn".equals(e.getActionCommand())) {
+			majDunCompteExistant();
+		}
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+		JLabel source = (JLabel) e.getSource();
+		if (githubIconLbl == source) {
+			Utils.openWebpage(Constants.URL_GITHUB);
+		} else if (fbIconLbl == source) {
+			Utils.openWebpage(Constants.URL_FACEBOOK);
+		} else if (twitterIconLbl == source) {
+			Utils.openWebpage(Constants.URL_TWITTER);
+		} else if (disconnectLbl == source) {
+			userDisconnect();
+		}else if (iconViewOrHidePasswordEditLbl == source) {
+			Utils.showOrHidePasswordTxtFields(passwordEditTxtFld, iconViewOrHidePasswordEditLbl, '$');
+		
+			//iconViewOrHidePasswordEditLbl.getIcon().toString();
+		}
+	}
+
+	private void showOrHidePasswordTxtFields(JPasswordField passwordField) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+	
+	private void majDunCompteExistant() {
+		// TODO Auto-generated method stub
+		
+		//Après la mise à jour d'un compte existant
+		//Je rafraichis la fenetre d'affichage des items pour prendre en compte la modification
+		//Je fais un set de ajouterEditBtn.setActionCommand("ajouterEditBtn");
+		//Je fais un set de ajouterEditBtn.setText("Ajouter");
+		//Je fais un set "" de tous les champs.
+	}
+
+	private void ajoutDunNouveauCompte() {
+		// TODO Auto-generated method stub
+		
+		//Je fais un set "" de tous les champs après un ajout.
+	}
+	
+	public void userDisconnect() {
+		int retourUser = Utils.showConfirmDialog(frame,
+				"Vous êtes sur le point de vous déconnecter, cliquez sur oui pour le faire !");
+		if (retourUser == 0) {
+			AuthenticationUI windowAuthUI = new AuthenticationUI();
+			frame.dispose();
+			windowAuthUI.frame.setVisible(true);
+		}
 	}
 }
