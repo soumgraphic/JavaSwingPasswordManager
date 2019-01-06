@@ -70,7 +70,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 	JLabel lblCompte;
 	JButton ajouterEditBtn;
 	JLabel iconViewOrHidePasswordEditLbl;
-	JLabel identifiantUserConnectedLbl;
+	UserBean user = new UserBean();
 	
 
 	/**
@@ -97,11 +97,8 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 	}
 
 	public AdminUI(UserBean userBean) {
+		user = userBean;
 		initialize();
-		
-		identifiantUserConnectedLbl.setText(userBean.getIdentifiantUser());
-		System.out.println("userBean " + userBean.getIdentifiantUser());
-		System.out.println("label " + identifiantUserConnectedLbl.getText());
 		userNameLbl.setText(userBean.getNameUser());
 		userEmailLbl.setText(userBean.getEmailUser());
 	}
@@ -219,6 +216,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		panel.add(nbreCompteEnregistrerLbl);
 
 		chiffreNbreCompteEnregistrerLbl = new JLabel("10");
+		chiffreNbreCompteEnregistrerLbl.setVerticalAlignment(SwingConstants.TOP);
 		chiffreNbreCompteEnregistrerLbl.setForeground(new Color(112, 128, 144));
 		chiffreNbreCompteEnregistrerLbl.setFont(new Font("Tahoma", Font.BOLD, 18));
 		chiffreNbreCompteEnregistrerLbl.setBounds(457, 111, 22, 22);
@@ -319,19 +317,6 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		lblAction.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblAction.setBounds(655, 72, 45, 17);
 		panel_1.add(lblAction);
-
-		JLabel identifiantItemHiddenTxtFld = new JLabel("");
-		identifiantItemHiddenTxtFld.setVisible(false);
-		identifiantItemHiddenTxtFld.setForeground(new Color(112, 128, 144));
-		identifiantItemHiddenTxtFld.setFont(new Font("Tahoma", Font.BOLD, 16));
-		identifiantItemHiddenTxtFld.setBounds(408, 154, 23, 19);
-		panel_1.add(identifiantItemHiddenTxtFld);
-		
-		identifiantUserConnectedLbl = new JLabel("");
-		identifiantUserConnectedLbl.setVisible(false);
-		identifiantUserConnectedLbl.setForeground(new Color(112, 128, 144));
-		identifiantUserConnectedLbl.setBounds(725, 30, 61, 16);
-		panel_1.add(identifiantUserConnectedLbl);
 
 		JLabel label_6 = new JLabel("");
 		label_6.setOpaque(true);
@@ -479,7 +464,8 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		JPanel panelGeneralViewAllItems = new JPanel();
 		panelGeneralViewAllItems.setBackground(Color.WHITE);
 		panelGeneralViewAllItems.setBounds(0, 302, 792, 313);
-
+		//Avant la création de panel
+		//System.out.println("User avant panel " + user.toString());
 		JPanel panelViewAllItems = createItemPanel();
 		// JPanel panelViewAllItems = new JPanel();
 
@@ -544,13 +530,17 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		int debutCpSeparator = 58;
 		int incrementNouvelleLigne = 67;
 		int i;
+		System.out.println("Name utilisateur est : " + userNameLbl.getText());
+		System.out.println("email utilisateur est : " + userEmailLbl.getText());
+		//System.out.println("User toString est " + user.toString());
 		
 		AccountDaoImpl accountDaoImpl = new AccountDaoImpl();
 		List<AccountBean> accounts = new ArrayList<AccountBean>();
+		
 		try {
-			System.out.println(identifiantUserConnectedLbl.getText());
-			//accounts = accountDaoImpl.retrieveAllAccountsByUserId(identifiantUserConnectedLbl.getText());
-			accounts = accountDaoImpl.retrieveAllAccountsByUserId("c858cfb2-e53b-43cf-bc81-66cb85b8fdd0");
+			accounts = accountDaoImpl.retrieveAllAccountsByUserId(user.getIdentifiantUser());
+			//Nombre d'enregistrement disponible pour l'utilisateur connecté 
+			chiffreNbreCompteEnregistrerLbl.setText(String.valueOf(accounts.size()));
 			for (AccountBean accountBean : accounts) {
 				if ((accountBean.getCallDbFunctionBean().getCodeRetour() == Constants.COMPLETED_SUCCESSFULLY) && (accountBean.getCallDbFunctionBean().isErrorRetour() == false)) {
 					JTextField usernameItemTf;
@@ -774,7 +764,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		} else if (disconnectLbl == source) {
 			userDisconnect();
 		}else if (iconViewOrHidePasswordEditLbl == source) {
-			Utils.showOrHidePasswordTxtFields(passwordEditTxtFld, iconViewOrHidePasswordEditLbl, '$');
+			Utils.showOrHidePasswordTxtFields(passwordEditTxtFld, iconViewOrHidePasswordEditLbl, '*');
 		
 			//iconViewOrHidePasswordEditLbl.getIcon().toString();
 		}
@@ -826,7 +816,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 	
 	public void userDisconnect() {
 		int retourUser = Utils.showConfirmDialog(frame,
-				"Vous êtes sur le point de vous déconnecter, cliquez sur oui pour le faire !");
+				"Vous êtes sur le point de vous déconnecter, cliquez sur oui pour continuer !");
 		if (retourUser == 0) {
 			AuthenticationUI windowAuthUI = new AuthenticationUI();
 			frame.dispose();

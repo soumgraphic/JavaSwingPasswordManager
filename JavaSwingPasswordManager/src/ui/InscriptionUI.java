@@ -280,6 +280,8 @@ public class InscriptionUI extends JFrame implements ActionListener{
 					emailTxtfield.setText("");
 					passwordTxtfield.setText("");
 					
+					userBean.setPasswordUser("");
+					
 					AdminUI adminUI = new AdminUI(userBean);
 					frame.dispose();
 					adminUI.frame.setVisible(true);

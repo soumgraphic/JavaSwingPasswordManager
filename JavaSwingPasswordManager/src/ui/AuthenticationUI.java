@@ -244,7 +244,7 @@ public class AuthenticationUI extends JFrame implements ActionListener{
 				
 				UserDaoImpl daoImpl = new UserDaoImpl();
 				UserBean userBean = new UserBean();
-				userBean = daoImpl.authenticationUser(emailUser, passwordUser);
+				userBean = daoImpl.authenticationUser(emailUser.toLowerCase(), passwordUser);
 				if ((userBean.getCallDbFunctionBean().getCodeRetour() == Constants.COMPLETED_SUCCESSFULLY) && (userBean.getCallDbFunctionBean().isErrorRetour() == false)) {
 					AdminUI adminUI = new AdminUI(userBean);
 					frame.dispose();
