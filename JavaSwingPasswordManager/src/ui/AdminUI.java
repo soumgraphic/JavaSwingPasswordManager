@@ -69,6 +69,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 	JLabel compteEnregistrerLbl;
 	JLabel lblCompte;
 	JButton ajouterEditBtn;
+	JButton clearEditBtn;
 	JLabel iconViewOrHidePasswordEditLbl;
 	UserBean user = new UserBean();
 	
@@ -448,7 +449,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		ajouterEditBtn.setContentAreaFilled(false);
 		ajouterEditBtn.setBorder(new LineBorder(new Color(60, 179, 113)));
 		ajouterEditBtn.setActionCommand("ajouterEditBtn");
-		ajouterEditBtn.setBounds(12, 356, 350, 40);
+		ajouterEditBtn.setBounds(12, 356, 200, 40);
 		ajouterEditBtn.addActionListener(this);
 		panel_2.add(ajouterEditBtn);
 		
@@ -460,14 +461,24 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		iconViewOrHidePasswordEditLbl.setBounds(339, 233, 23, 23);
 		iconViewOrHidePasswordEditLbl.addMouseListener(this);
 		panel_2.add(iconViewOrHidePasswordEditLbl);
+		
+		clearEditBtn = new JButton("Clear");
+		clearEditBtn.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		clearEditBtn.setForeground(new Color(60, 179, 113));
+		clearEditBtn.setFont(new Font("Tahoma", Font.BOLD, 14));
+		clearEditBtn.setFocusPainted(false);
+		clearEditBtn.setContentAreaFilled(false);
+		clearEditBtn.setBorder(new LineBorder(new Color(60, 179, 113)));
+		clearEditBtn.setActionCommand("clearEditBtn");
+		clearEditBtn.addActionListener(this);
+		clearEditBtn.setBounds(224, 356, 138, 40);
+		panel_2.add(clearEditBtn);
 
 		JPanel panelGeneralViewAllItems = new JPanel();
 		panelGeneralViewAllItems.setBackground(Color.WHITE);
 		panelGeneralViewAllItems.setBounds(0, 302, 792, 313);
-		//Avant la création de panel
-		//System.out.println("User avant panel " + user.toString());
+		
 		JPanel panelViewAllItems = createItemPanel();
-		// JPanel panelViewAllItems = new JPanel();
 
 		JScrollPane spViewallItems = new JScrollPane();
 		spViewallItems.setBorder(null);
@@ -748,6 +759,8 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 			ajoutDunNouveauCompte();
 		}else if("majEditBtn".equals(e.getActionCommand())) {
 			majDunCompteExistant();
+		}else if ("clearEditBtn".equals(e.getActionCommand())) {
+			clearAllTfEdit();
 		}
 	}
 
@@ -812,6 +825,43 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		// TODO Auto-generated method stub
 		
 		//Je fais un set "" de tous les champs après un ajout.
+		//nomCompletEditTxtFld
+		UserBean userBean = new UserBean();
+		AccountDaoImpl accountDaoImpl = new AccountDaoImpl();
+		userBean.setIdentifiantUser(user.getIdentifiantUser());
+		AccountBean accountBean = new AccountBean(nomCompletEditTxtFld.getText(), 
+				usernameEditTxtFld.getText(), passwordEditTxtFld.getText(), urlEditTxtFld.getText(), userBean);
+		try {
+			accountBean = accountDaoImpl.insertAccount(accountBean);
+			if ((accountBean.getCallDbFunctionBean().getCodeRetour() == Constants.COMPLETED_SUCCESSFULLY) && (accountBean.getCallDbFunctionBean().isErrorRetour() == false)) {
+				System.out.println("Username du compte ajouter " + accountBean.getUsernameAccount());
+				System.out.println("Identifiant utilisateur " + accountBean.getUserBean().getIdentifiantUser());
+				System.out.println("Message de retour " + accountBean.getCallDbFunctionBean().getMessageRetour());
+				
+				nomCompletEditTxtFld.setText("");
+				usernameEditTxtFld.setText("");
+				passwordEditTxtFld.setText("");
+				urlEditTxtFld.setText("");
+				
+				Utils.refreshFrame(frame);
+			}else {
+				System.out.println(accountBean.getCallDbFunctionBean().getMessageRetour());
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void clearAllTfEdit() {
+		nomCompletEditTxtFld.setText("");
+		usernameEditTxtFld.setText("");
+		passwordEditTxtFld.setText("");
+		urlEditTxtFld.setText("");
+		
+		ajouterEditBtn.setText("Ajouter ");
+		ajouterEditBtn.setActionCommand("ajouterEditBtn");
 	}
 	
 	public void userDisconnect() {

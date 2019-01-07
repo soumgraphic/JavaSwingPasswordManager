@@ -136,5 +136,12 @@ public class Utils {
 			labelForChangeIcon.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/eye_white.png")));
 		}
 	}
+	
+	public static void refreshFrame(JFrame frame) {
+		frame.invalidate();
+		frame.validate();
+		frame.revalidate();
+		frame.repaint();
+	}
 
 }
