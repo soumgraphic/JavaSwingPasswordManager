@@ -25,16 +25,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.border.LineBorder;
+
 import javax.swing.border.EtchedBorder;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Dimension;
 
 import javax.swing.JScrollBar;
@@ -435,7 +438,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		urlEditTxtFld.setBounds(12, 305, 350, 16);
 		panel_2.add(urlEditTxtFld);
 
-		JLabel lblUrl_1 = new JLabel("Url");
+		JLabel lblUrl_1 = new JLabel("Url (sans http ou https)");
 		lblUrl_1.setForeground(new Color(60, 179, 113));
 		lblUrl_1.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblUrl_1.setBounds(12, 277, 282, 16);
@@ -682,7 +685,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							//Utils.showErrorMessage(frame, message);
-
+							Utils.openWebpage("http://"+urlItemTf.getText());
 						}
 					});
 					
@@ -782,7 +785,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 			//iconViewOrHidePasswordEditLbl.getIcon().toString();
 		}
 	}
-
+	
 	private void showOrHidePasswordTxtFields(JPasswordField passwordField) {
 		// TODO Auto-generated method stub
 		
