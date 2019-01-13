@@ -6,6 +6,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Locale;
+import java.util.Random;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.regex.Matcher;
@@ -138,10 +139,22 @@ public class Utils {
 	}
 	
 	public static void refreshFrame(JFrame frame) {
-		frame.invalidate();
-		frame.validate();
+		//frame.invalidate();
+		//frame.validate();
 		frame.revalidate();
 		frame.repaint();
 	}
+	
+	public static String generatePassword() {
+        String SALTCHARS = "azertyuiopqsdfghjklmwxcvbnAZERTYUIOPQSDFGHJKLMWXCVBN0123456789+-*/=&\".-_+/*,'#";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < 18) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
+    }
 
 }

@@ -5,17 +5,23 @@ import java.util.List;
 import bean.UserBean;
 import dao.UserDaoImpl;
 import utils.Constants;
+import utils.Utils;
 
 public class TestUser {
 	
 	public static void main(String[] args) {
+		
+		
+		System.out.println(Utils.generatePassword());
+		System.out.println(Utils.generatePassword());
+		System.out.println(Utils.generatePassword());
 		
 		/*
 		 * Insertion d'un user
 		 */
 		
 		
-		 
+		/*
 		try {
 		
 			UserDaoImpl daoImpl = new UserDaoImpl();
@@ -34,7 +40,7 @@ public class TestUser {
 			e.printStackTrace();
 		}
 		
-		
+		*/
 		
 		
 		/*

@@ -26,6 +26,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +58,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 	private JTextField usernameEditTxtFld;
 	private JPasswordField passwordEditTxtFld;
 	private JTextField urlEditTxtFld;
+	private JLabel idAccountEditLbl;
 	JLabel userIconLbl;
 	JLabel lblPasswordManager;
 	JLabel scoreSecuriteLbl;
@@ -74,7 +76,11 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 	JButton ajouterEditBtn;
 	JButton clearEditBtn;
 	JLabel iconViewOrHidePasswordEditLbl;
+	JLabel iconGeneratePasswordEditLbl;
+	JPanel panelViewAllItems;
+	
 	UserBean user = new UserBean();
+	List<AccountBean> accounts = new ArrayList<AccountBean>();
 	
 
 	/**
@@ -412,7 +418,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		passwordEditTxtFld.setCaretColor(new Color(60, 179, 113));
 		passwordEditTxtFld.setBorder(null);
 		passwordEditTxtFld.setBackground(new Color(255, 255, 255));
-		passwordEditTxtFld.setBounds(12, 236, 315, 16);
+		passwordEditTxtFld.setBounds(12, 236, 275, 16);
 		passwordEditTxtFld.setEchoChar('*');
 		panel_2.add(passwordEditTxtFld);
 
@@ -461,7 +467,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		iconViewOrHidePasswordEditLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/eye.png")));
 		iconViewOrHidePasswordEditLbl.setForeground(new Color(112, 128, 144));
 		iconViewOrHidePasswordEditLbl.setFont(new Font("Tahoma", Font.BOLD, 16));
-		iconViewOrHidePasswordEditLbl.setBounds(339, 233, 23, 23);
+		iconViewOrHidePasswordEditLbl.setBounds(303, 233, 23, 23);
 		iconViewOrHidePasswordEditLbl.addMouseListener(this);
 		panel_2.add(iconViewOrHidePasswordEditLbl);
 		
@@ -476,17 +482,34 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		clearEditBtn.addActionListener(this);
 		clearEditBtn.setBounds(224, 356, 138, 40);
 		panel_2.add(clearEditBtn);
+		
+		idAccountEditLbl = new JLabel("");
+		idAccountEditLbl.setForeground(new Color(60, 179, 113));
+		idAccountEditLbl.setFont(new Font("Tahoma", Font.BOLD, 14));
+		idAccountEditLbl.setBounds(306, 71, 56, 16);
+		idAccountEditLbl.setVisible(false);
+		panel_2.add(idAccountEditLbl);
+		
+		iconGeneratePasswordEditLbl = new JLabel("");
+		iconGeneratePasswordEditLbl.setToolTipText("Cliquer pour générer un mot de passe fort");
+		iconGeneratePasswordEditLbl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		iconGeneratePasswordEditLbl.setIcon(new ImageIcon(AdminUI.class.getResource("/ui/images/passgenerator.png")));
+		iconGeneratePasswordEditLbl.setForeground(new Color(112, 128, 144));
+		iconGeneratePasswordEditLbl.setFont(new Font("Tahoma", Font.BOLD, 16));
+		iconGeneratePasswordEditLbl.setBounds(338, 228, 24, 24);
+		iconGeneratePasswordEditLbl.addMouseListener(this);
+		panel_2.add(iconGeneratePasswordEditLbl);
 
 		JPanel panelGeneralViewAllItems = new JPanel();
 		panelGeneralViewAllItems.setBackground(Color.WHITE);
 		panelGeneralViewAllItems.setBounds(0, 302, 792, 313);
 		
-		JPanel panelViewAllItems = createItemPanel();
+		//panelViewAllItems = createItemPanel();
 
 		JScrollPane spViewallItems = new JScrollPane();
 		spViewallItems.setBorder(null);
 		spViewallItems.setBackground(Color.WHITE);
-		spViewallItems.setViewportView(panelViewAllItems);
+		spViewallItems.setViewportView(createItemPanel());
 
 		panelGeneralViewAllItems.setLayout(new BorderLayout());
 		panelGeneralViewAllItems.add(spViewallItems, BorderLayout.CENTER);
@@ -549,7 +572,6 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		//System.out.println("User toString est " + user.toString());
 		
 		AccountDaoImpl accountDaoImpl = new AccountDaoImpl();
-		List<AccountBean> accounts = new ArrayList<AccountBean>();
 		
 		try {
 			accounts = accountDaoImpl.retrieveAllAccountsByUserId(user.getIdentifiantUser());
@@ -558,7 +580,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 			for (AccountBean accountBean : accounts) {
 				if ((accountBean.getCallDbFunctionBean().getCodeRetour() == Constants.COMPLETED_SUCCESSFULLY) && (accountBean.getCallDbFunctionBean().isErrorRetour() == false)) {
 					JTextField usernameItemTf;
-					JTextField passwordItemTf;
+					JPasswordField passwordItemTf;
 					JTextField urlItemTf;
 					JTextField etatUrlItemTf;
 					JTextField etatPasswordItemTf;
@@ -575,12 +597,13 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 					usernameItemTf.setBounds(12, debutCpUsername, 211, 22);
 					panel_3.add(usernameItemTf);
 
-					passwordItemTf = new JTextField();
+					passwordItemTf = new JPasswordField();
 					passwordItemTf.setText(accountBean.getPasswordAccount());
 					passwordItemTf.setForeground(new Color(112, 128, 144));
 					passwordItemTf.setFont(new Font("Tahoma", Font.BOLD, 15));
 					passwordItemTf.setEditable(false);
 					passwordItemTf.setColumns(10);
+					passwordItemTf.setEchoChar('*');
 					passwordItemTf.setBorder(null);
 					passwordItemTf.setBackground(Color.WHITE);
 					passwordItemTf.setBounds(246, debutCpPassword, 150, 22);
@@ -640,6 +663,8 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 					etatPasswordItemTf.setBackground(Color.WHITE);
 					etatPasswordItemTf.setBounds(246, debutCpEtatPassword, 150, 22);
 					panel_3.add(etatPasswordItemTf);
+					
+					passwordStrongTest(etatPasswordItemTf, passwordItemTf);
 
 					nomCompletItemTf = new JTextField();
 					nomCompletItemTf.setText(accountBean.getNameAccount());
@@ -718,6 +743,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 						@Override
 						public void mouseClicked(MouseEvent e) {
 							// TODO Auto-generated method stub
+							idAccountEditLbl.setText(accountBean.getIdentifiantAccount());
 							nomCompletEditTxtFld.setText(nomCompletItemTf.getText());
 							usernameEditTxtFld.setText(usernameItemTf.getText());
 							passwordEditTxtFld.setText(passwordItemTf.getText());
@@ -727,6 +753,73 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 							ajouterEditBtn.setActionCommand("majEditBtn");
 							
 							
+						}
+					});
+					
+					iconeDeleteItem.addMouseListener(new MouseListener() {
+						
+						@Override
+						public void mouseReleased(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void mousePressed(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void mouseExited(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							// TODO Auto-generated method stub
+							//Utils.showErrorMessage(frame, "Identifiant du compte " + accountBean.getUsernameAccount() + " est " + accountBean.getIdentifiantAccount());
+							deleteAccount(accountBean);
+						}
+					});
+					
+					iconViewPasswordItem.addMouseListener(new MouseListener() {
+						
+						@Override
+						public void mouseReleased(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void mousePressed(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void mouseExited(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void mouseEntered(MouseEvent e) {
+							// TODO Auto-generated method stub
+							
+						}
+						
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							// TODO Auto-generated method stub
+							Utils.showOrHidePasswordTxtFields(passwordItemTf, iconViewPasswordItem, '*');
 						}
 					});
 
@@ -751,6 +844,8 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		}
 
 		panel_3.setPreferredSize(new Dimension(0, 1000));
+		panel_3.revalidate();
+		panel_3.repaint();
 
 		return panel_3;
 	}
@@ -761,6 +856,7 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 		if ("ajouterEditBtn".equals(e.getActionCommand())) {
 			ajoutDunNouveauCompte();
 		}else if("majEditBtn".equals(e.getActionCommand())) {
+			//Utils.showSuccessMessage(frame, idAccountEditLbl.getText());
 			majDunCompteExistant();
 		}else if ("clearEditBtn".equals(e.getActionCommand())) {
 			clearAllTfEdit();
@@ -783,6 +879,8 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 			Utils.showOrHidePasswordTxtFields(passwordEditTxtFld, iconViewOrHidePasswordEditLbl, '*');
 		
 			//iconViewOrHidePasswordEditLbl.getIcon().toString();
+		}else if (iconGeneratePasswordEditLbl == source) {
+			passwordEditTxtFld.setText(Utils.generatePassword());
 		}
 	}
 	
@@ -816,7 +914,39 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 	
 	private void majDunCompteExistant() {
 		// TODO Auto-generated method stub
-		
+		AccountDaoImpl accountDaoImpl = new AccountDaoImpl();
+		//userBean.setIdentifiantUser("c858cfb2-e53b-43cf-bc81-66cb85b8fdd0");
+		//AccountBean accountBean = new AccountBean("895a61c1-0f6c-495e-8bee-2d92cbfee28c","Assetou DIARRA KADI", "setou.s@gmail.com", "12345678", "https://www.youtube.com/", userBean);
+		AccountBean accountSelected = new AccountBean();
+		try {
+			accountSelected.setIdentifiantAccount(idAccountEditLbl.getText().toString());
+			accountSelected.setUserBean(user);
+			accountSelected.setNameAccount(nomCompletEditTxtFld.getText().toString());
+			accountSelected.setUsernameAccount(usernameEditTxtFld.getText().toString());
+			accountSelected.setPasswordAccount(passwordEditTxtFld.getText());
+			accountSelected.setUrlAccount(urlEditTxtFld.getText().toString());
+			accountSelected = accountDaoImpl.updateAccount(accountSelected);
+			if ((accountSelected.getCallDbFunctionBean().getCodeRetour() == Constants.COMPLETED_SUCCESSFULLY) && (accountSelected.getCallDbFunctionBean().isErrorRetour() == false)) {
+				ajouterEditBtn.setActionCommand("ajouterEditBtn");
+				ajouterEditBtn.setText("Ajouter");
+				
+				nomCompletEditTxtFld.setText("");
+				usernameEditTxtFld.setText("");
+				passwordEditTxtFld.setText("");
+				urlEditTxtFld.setText("");
+				
+				refreshFrame();
+				
+				System.out.println("Identifiant utilisateur " + accountSelected.getUserBean().getIdentifiantUser());
+				System.out.println("Message de retour " + accountSelected.getCallDbFunctionBean().getMessageRetour());
+			}else {
+				System.out.println(accountSelected.getCallDbFunctionBean().getMessageRetour());
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//Après la mise à jour d'un compte existant
 		//Je rafraichis la fenetre d'affichage des items pour prendre en compte la modification
 		//Je fais un set de ajouterEditBtn.setActionCommand("ajouterEditBtn");
@@ -845,8 +975,17 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 				usernameEditTxtFld.setText("");
 				passwordEditTxtFld.setText("");
 				urlEditTxtFld.setText("");
+				//accounts.add(accountBean);
+				//panelViewAllItems.repaint();
+				//panelViewAllItems.revalidate();
+				//panelViewAllItems = createItemPanel();
 				
-				Utils.refreshFrame(frame);
+				refreshFrame();
+				
+				
+				//createItemPanel();
+				//Utils.refreshFrame(frame);
+				//createItemPanel();
 			}else {
 				System.out.println(accountBean.getCallDbFunctionBean().getMessageRetour());
 			}
@@ -875,5 +1014,46 @@ public class AdminUI extends JFrame implements ActionListener, MouseListener {
 			frame.dispose();
 			windowAuthUI.frame.setVisible(true);
 		}
+	}
+	
+	public void deleteAccount(AccountBean accountSelected) {
+		AccountDaoImpl accountDaoImpl = new AccountDaoImpl();
+		AccountBean accountBean = new AccountBean();
+		try {
+			accountBean = accountDaoImpl.deleteAccountById(accountSelected.getIdentifiantAccount());
+			int retourUser = Utils.showConfirmDialog(frame,
+					"Voulez vous supprimer le compte " + accountSelected.getUsernameAccount() + ", cliquez sur oui pour continuer !");
+			if (retourUser == 0) {
+				
+				if ((accountBean.getCallDbFunctionBean().getCodeRetour() == Constants.COMPLETED_SUCCESSFULLY) && (accountBean.getCallDbFunctionBean().isErrorRetour() == false)) {
+					refreshFrame();
+					
+					System.out.println("Message de retour " + accountBean.getCallDbFunctionBean().getMessageRetour());
+				}else {
+					System.out.println(accountBean.getCallDbFunctionBean().getMessageRetour());
+				}
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void passwordStrongTest(JTextField textField,JPasswordField passwordField) {
+		String passwordFieldTxt = passwordField.getText(); 
+		if (passwordFieldTxt.length() <= 6) {
+			textField.setText("Faible");
+		}else if ((passwordFieldTxt.length() > 6) && (passwordFieldTxt.length() <= 10)) {
+			textField.setText("Moyen");
+		}else if (passwordFieldTxt.length() > 10) {
+			textField.setText("Fort");
+		}
+	}
+	
+	public void refreshFrame() {
+		AdminUI adminUI = new AdminUI(user);
+		frame.dispose();
+		adminUI.frame.setVisible(true);
 	}
 }
