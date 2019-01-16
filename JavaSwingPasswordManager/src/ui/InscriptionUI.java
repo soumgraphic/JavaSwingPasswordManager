@@ -123,7 +123,7 @@ public class InscriptionUI extends JFrame implements ActionListener{
 		panel_1.add(nameTxtfield);
 		nameTxtfield.setColumns(10);
 		
-		JLabel lblName = new JLabel("Nom");
+		JLabel lblName = new JLabel("Nom *");
 		lblName.setForeground(Color.WHITE);
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblName.setBounds(51, 118, 282, 16);
@@ -135,7 +135,7 @@ public class InscriptionUI extends JFrame implements ActionListener{
 		separator.setBounds(51, 163, 320, 12);
 		panel_1.add(separator);
 		
-		notRobotRdBtn = new JRadioButton("Je ne suis pas un robot");
+		notRobotRdBtn = new JRadioButton("Je ne suis pas un robot *");
 		notRobotRdBtn.setBorder(null);
 		notRobotRdBtn.setFont(new Font("Tahoma", Font.BOLD, 12));
 		notRobotRdBtn.setBackground(new Color(60, 179, 113));
@@ -149,7 +149,7 @@ public class InscriptionUI extends JFrame implements ActionListener{
 		separator_1.setBounds(51, 232, 320, 12);
 		panel_1.add(separator_1);
 		
-		JLabel lblEmail = new JLabel("Email");
+		JLabel lblEmail = new JLabel("Email *");
 		lblEmail.setForeground(Color.WHITE);
 		lblEmail.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblEmail.setBounds(51, 187, 282, 16);
@@ -165,7 +165,7 @@ public class InscriptionUI extends JFrame implements ActionListener{
 		emailTxtfield.setBounds(51, 215, 320, 16);
 		panel_1.add(emailTxtfield);
 		
-		JLabel lblPassword = new JLabel("Mot de passe");
+		JLabel lblPassword = new JLabel("Mot de passe *");
 		lblPassword.setForeground(Color.WHITE);
 		lblPassword.setFont(new Font("Tahoma", Font.BOLD, 14));
 		lblPassword.setBounds(51, 256, 282, 16);
