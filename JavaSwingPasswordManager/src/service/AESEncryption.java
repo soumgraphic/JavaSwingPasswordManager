@@ -30,7 +30,7 @@ public class AESEncryption {
 			e.printStackTrace();
 		}
 	}
-	//Pour l'encryption, la meilleure option c'est de faire secret_key+mot de passe utilisateur.
+
 	public static String encrypt(String strToEncrypt) {
 		try {
 			String secret = Constants.SECRET_KEY;

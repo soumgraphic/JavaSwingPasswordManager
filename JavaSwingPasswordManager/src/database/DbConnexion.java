@@ -27,12 +27,10 @@ public class DbConnexion {
 	}
 
 	public static Connection getConnection() throws SQLException {
-		//windows path
-		//connection = DriverManager.getConnection("jdbc:sqlite:" + Constants.DB_PATH);
 		//Eclipse test path
-		//connection = DriverManager.getConnection("jdbc:sqlite:resource/" + Constants.DB_PATH);
+		connection = DriverManager.getConnection("jdbc:sqlite:resource/" + Constants.DB_PATH);
 		//Runnable jar path 
-		connection = DriverManager.getConnection("jdbc:sqlite::resource:" + Constants.DB_PATH);
+		//connection = DriverManager.getConnection("jdbc:sqlite::resource:" + Constants.DB_PATH);
 		Utils.getLogger(Level.INFO, "Connection à la base de donnée effectuer avec succès !");
 
 		return connection;
