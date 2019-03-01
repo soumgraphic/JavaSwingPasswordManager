@@ -27,10 +27,10 @@ public class DbConnexion {
 	}
 
 	public static Connection getConnection() throws SQLException {
-		//Eclipse test path
-		connection = DriverManager.getConnection("jdbc:sqlite:resource/" + Constants.DB_PATH);
-		//Runnable jar path 
-		//connection = DriverManager.getConnection("jdbc:sqlite::resource:" + Constants.DB_PATH);
+		//I added resources folder on my project built path, it's work on eclipse and on jar
+		String jarPath = "jdbc:sqlite::resource:" + Constants.DB_PATH; 
+		System.out.println(jarPath);
+		connection = DriverManager.getConnection(jarPath);
 		Utils.getLogger(Level.INFO, "Connection à la base de donnée effectuer avec succès !");
 
 		return connection;

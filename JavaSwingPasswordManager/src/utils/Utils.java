@@ -2,6 +2,7 @@ package utils;
 
 import java.util.Date;
 import java.awt.Desktop;
+import java.awt.Toolkit;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -83,13 +84,13 @@ public class Utils {
 	}
 
 	public static void showErrorMessage(JFrame frame, String message) {
-		final ImageIcon icon = new ImageIcon("src/ui/images/cancel.png");
+		final ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Utils.class.getResource("/ui/images/cancel.png")));
 		JOptionPane.showMessageDialog(frame, message + " :)", "Password Manager - Erreur",
 				JOptionPane.INFORMATION_MESSAGE, icon);
 	}
 
-	public static int showConfirmDialog(JFrame frame, String message) {
-		ImageIcon icon = new ImageIcon("src/ui/images/warning.png");
+	public static int showConfirmDialog(JFrame frame, String message) { 
+		final ImageIcon icon = new ImageIcon(Toolkit.getDefaultToolkit().getImage(Utils.class.getResource("/ui/images/warning.png")));
 		int input = JOptionPane.showConfirmDialog(frame, message,
 				"Password Manager - Confirmation", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE, icon);
 		return input;
